@@ -1,0 +1,6 @@
+kinect-kamehameha Change History
+
+* 1/31/2011 V0.1a
+
+  * First release!
+
