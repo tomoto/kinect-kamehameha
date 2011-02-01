@@ -1,0 +1,2 @@
+#labels Featured
+整備するまで [http://code.google.com/p/kinect-ultra/wiki/FAQ_ja kinect-ultraのFAQ] を参照ください。
