@@ -1,1 +1,2 @@
+#labels Featured
 Please see [http://code.google.com/p/kinect-ultra/wiki/FAQ_en kinect-ultra's FAQ] for now.
