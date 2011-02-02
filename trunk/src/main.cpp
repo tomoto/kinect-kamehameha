@@ -44,7 +44,7 @@
 #include <GLShaderManager.h>
 #include <GLFrustum.h>
 
-#define APP_VERSION "0.1a"
+#define APP_VERSION "0.1b-rc"
 
 // OpenNI objects
 Context g_context;
