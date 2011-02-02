@@ -207,7 +207,7 @@ void WorldRenderer::drawBackground()
 		bool isTracked = userID && lp;
 		bool isLightened = isTracked && lightRadius > 0.0f;
 
-		float hairScale = m_henshinDetector->getHenshinProgress() * 0.5f;
+		float hairScale = m_henshinDetector->getHenshinProgress() * 0.6f;
 		float auraScale = m_henshinDetector->getHenshinProgress();
 		XV3 hairDirection = headDirection;
 		if (isLightened) {
@@ -250,15 +250,13 @@ void WorldRenderer::drawBackground()
 						hairFrame.TransformPoint(XV3toM3D(v), tmp);
 						v.assign(tmp);
 
+						glDisable(GL_CULL_FACE);
 						glBegin(GL_TRIANGLES);
-						if (m_rng.uniform(0.0, 1.0) > 0.75) {
-							glVertexAttrib4f(GLT_ATTRIBUTE_COLOR, 0.9f, 1.0f, 0.4f, 0.2f);
-						} else {
-							glVertexAttrib4f(GLT_ATTRIBUTE_COLOR, (*cp)[0], (*cp)[1], (*cp)[2], 0.4f);
-						}
+						glVertexAttrib4f(GLT_ATTRIBUTE_COLOR, (*cp)[0], (*cp)[1], (*cp)[2], 0.45f); // root
 						glVertex3f(p.X-v.Y*0.07f, p.Y+v.X*0.07f, p.Z);
 						glVertex3f(p.X+v.Y*0.07f, p.Y-v.X*0.07f, p.Z);
-						glVertex3f(p.X+v.X,       p.Y+v.Y,       p.Z+v.Z);
+						glVertexAttrib4f(GLT_ATTRIBUTE_COLOR, 0.9f, 1.0f, 0.4f, 0.3f); // gold
+						glVertex3f(p.X+v.X, p.Y+v.Y, p.Z+v.Z);
 						glEnd();
 
 						auraSourcePtr += ptrdiff_t(-v.X*Y_RES*0.5f) + ptrdiff_t(v.Y*Y_RES*0.5f) * m_width;
