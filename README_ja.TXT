@@ -1,6 +1,6 @@
-kinect-kamehameha V0.1a
+kinect-kamehameha V0.1b
 Author: Tomoto S. Washio
-Release Date: 2011/1/31
+Release Date: 2011/2/2
 Project URL: http://code.google.com/p/kinect-kamehameha/
 
 1. ‘O’ñğŒ
