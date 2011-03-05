@@ -44,7 +44,7 @@
 #include <GLShaderManager.h>
 #include <GLFrustum.h>
 
-#define APP_VERSION "0.1b"
+#define APP_VERSION "0.1c-rc"
 
 // OpenNI objects
 Context g_context;
@@ -135,6 +135,12 @@ static void initXN()
 	CALL_XN( g_context.StartGeneratingAll() );
 }
 
+static void sorryThisProgramCannotRunBecause(const char* reason)
+{
+	printf("Failed: Sorry this program cannot run because %s.\n", reason);
+	errorExit();
+}
+
 static void checkOpenGLCapabilities()
 {
 	const char* openGLVersion = (const char*)(glGetString(GL_VERSION));
@@ -143,8 +149,14 @@ static void checkOpenGLCapabilities()
 	if (shaderLanguageVersion) {
 		printf("Shader language version = %s\n", shaderLanguageVersion);
 	} else {
-		puts("Failed: This GPU does not support shaders. Sorry this program cannot run.");
+		sorryThisProgramCannotRunBecause("this GPU does not support programmable shaders");
 		errorExit();
+	}
+
+	if (glGenVertexArrays) {
+		// VAOs are supported. Good.
+	} else {
+		sorryThisProgramCannotRunBecause("VAOs are not supported");
 	}
 }
 
@@ -155,6 +167,7 @@ static void initGL(int* pArgc, char* argv[])
 	glutInitWindowSize(X_RES, Y_RES);
 	glutCreateWindow(WIN_TITLE);
 	glutHideWindow();
+	CALL_GLEW( glewInit() );
 
 	checkOpenGLCapabilities();
 
@@ -162,7 +175,6 @@ static void initGL(int* pArgc, char* argv[])
 	glutDisplayFunc(onGlutDisplay);
 	glutIdleFunc(onGlutIdle);
 
-	CALL_GLEW( glewInit() );
 	g_shaderMan.InitializeStockShaders();
 
 	glEnable(GL_DEPTH_TEST);
