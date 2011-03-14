@@ -24,7 +24,10 @@
 === Platform ===
 
 || *CPU*        || *GPU*           || *OS*                || *Reported by* || *Remark* ||
-|| Core i7 2600 || GeForce GTX 285 || Win XP Pro 32       || tomoto        ||||
+|| Core i7 2600 || GeForce GTX 285 || Win XP Pro 32       || tomoto        || ||
+|| Core2Duo E6750 2.66GHz || GeForce 8600GT || Win 7 Pro || hidden.xv || ||
+|| Core2Duo 2.0GHz || GeForce 9400M || Win 7 Pro on MacBook BootCamp || hidden.xv || ||
+|| AMD64x2 3200+ || GeForce 9500GT || Win 7 Pro || rg7strin || ||
 
 === OpenNI & Kinect Drivers ===
 
