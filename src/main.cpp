@@ -220,7 +220,8 @@ static void displayWelcomeMessage()
 	puts("kinect-kamehameha " APP_VERSION);
 	char file[64];
 	char line[256];
-	sprintf(file, "welcome-%d.txt", GetConsoleCP());
+	//Todo - FIND THE FUNCTION GetConsoleCP() for Linux
+	//sprintf(file, "welcome-%d.txt", GetConsoleCP());
 	FILE* fp = fopen(getResourceFile("message", file).c_str(), "r");
 	if (fp) {
 		while (fgets(line, sizeof(line) - 1, fp)) {
@@ -243,10 +244,12 @@ static void displayWelcomeMessage()
 	}
 }
 
-void main(int argc, char* argv[])
+int main(int argc, char **argv)
 {
+#ifdef WIN32
 	// enable memory leak report for Win32 debug
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+#endif
 
 	displayWelcomeMessage();
 

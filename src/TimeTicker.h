@@ -35,8 +35,13 @@
 class TimeTicker
 {
 private:
+#ifdef WIN32
 	DWORD m_lastTime;
 	BOOL m_isLocked;
+#else
+	unsigned short m_lastTime;
+	bool m_isLocked;
+#endif
 
 public:
 	TimeTicker();
