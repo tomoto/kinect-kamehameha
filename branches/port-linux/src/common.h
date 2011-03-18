@@ -37,8 +37,9 @@
 // enable memory leak test for Win32 debug
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
+#ifdef WIN32
 #include <crtdbg.h>
-
+#endif
 // OpenNI
 #include <XnCppWrapper.h>
 using namespace xn;

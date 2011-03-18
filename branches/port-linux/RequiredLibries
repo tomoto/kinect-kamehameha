@@ -1,0 +1,19 @@
+RequiredLibries
+
+ Created on: 18/03/2011
+     Author: almerindo
+
+-lX11 
+-lhighgui 
+-lopencv_core 
+-lglut 
+-lGL 
+-lGLU 
+-lm 
+-lXnVNite 
+-lOpenNI 
+-lGLEW 
+-lstdc++ 
+-lSDL 
+-lcxcore 
+-lcv

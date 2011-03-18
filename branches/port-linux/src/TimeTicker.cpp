@@ -37,12 +37,21 @@ TimeTicker::TimeTicker()
 
 float TimeTicker::tick()
 {
+#ifdef WIN32
 	DWORD currentTime = GetTickCount();
 	float dt = (m_lastTime == 0) ? 0.0f : (currentTime - m_lastTime) / 1000.0f;
+
+#else
+	struct timespec t1;
+	clock_gettime(CLOCK_REALTIME, &t1);
+	float currentTime = (float)t1.tv_sec;
+	float dt = (m_lastTime == 0) ? 0.0f : (currentTime - m_lastTime);
+#endif
+
 	if (!m_isLocked) {
-		m_lastTime = currentTime;
-	}
-	return dt;
+			m_lastTime = currentTime;
+		}
+		return dt;
 }
 
 float TimeTicker::lock()
