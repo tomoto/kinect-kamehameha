@@ -28,7 +28,6 @@
 //@COPYRIGHT@//
 
 #include "KamehamehaDetector.h"
-#include "Configuration.h"
 #include "util.h"
 
 KamehamehaDetector::KamehamehaDetector(HenshinDetector* henshinDetector, KamehamehaStatus* status, KamehamehaRenderer* kkhRenderer) :
@@ -56,29 +55,29 @@ void KamehamehaDetector::onDetectPost(float dt)
 	}
 }
 
-inline float getHandDistanceThreshold()
+float KamehamehaDetector::getHandDistanceThreshold()
 {
 	return 250.0f;
 }
 
-inline float getArmStraightThreshold() {
-	if (Configuration::getInstance()->getPartyMode() == Configuration::PARTY_MODE_OFF) {
+float KamehamehaDetector::getArmStraightThreshold() {
+	if (getConfiguration()->getPartyMode() == Configuration::PARTY_MODE_OFF) {
 		return 0.8f;
 	} else {
 		return 0.75f; // bonus
 	}
 }
 
-inline float getArmLevelThreshold() {
-	if (Configuration::getInstance()->getPartyMode() == Configuration::PARTY_MODE_OFF) {
+float KamehamehaDetector::getArmLevelThreshold() {
+	if (getConfiguration()->getPartyMode() == Configuration::PARTY_MODE_OFF) {
 		return 0.2f;
 	} else {
 		return 0.25f; // bonus
 	}
 }
 
-inline float getMotionIntensityFactor() {
-	if (Configuration::getInstance()->getPartyMode() == Configuration::PARTY_MODE_OFF) {
+float KamehamehaDetector::getMotionIntensityFactor() {
+	if (getConfiguration()->getPartyMode() == Configuration::PARTY_MODE_OFF) {
 		return 0.8f;
 	} else {
 		return 0.6f; // do not care about the motion much
@@ -209,7 +208,7 @@ void KamehamehaDetector::updatePoseGrowth(float dt)
 		g *= 1.6f;
 	}
 
-	if (Configuration::getInstance()->getPartyMode() == Configuration::PARTY_MODE_ON) {
+	if (getConfiguration()->getPartyMode() == Configuration::PARTY_MODE_ON) {
 		g += 0.8f; // bonus
 	}
 
@@ -243,7 +242,7 @@ float KamehamehaDetector::getMotionIntensity()
 	// @ja ³–ÊŒü‚«‚ÅŒ‚‚Âê‡‚É‚ÍŒŸ’n‚µ‚É‚­‚¢‚Ì‚Å­‚µ’êã‚°‚µ‚Ä‚ ‚°‚é
 	float adjustment = square(front.dot(latest)) * 0.3f;
 
-	if (Configuration::getInstance()->getPartyMode() == Configuration::PARTY_MODE_ON) {
+	if (getConfiguration()->getPartyMode() == Configuration::PARTY_MODE_ON) {
 		adjustment += 0.5f; // bonus
 	}
 

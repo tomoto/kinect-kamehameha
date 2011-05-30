@@ -41,8 +41,8 @@ protected:
 
 private:
 	// TODO: should be time instead of frame rate
-	int m_requiredPosingStability;
-	int m_posingTicks;
+	float m_requiredPosingStability;
+	float m_posingTime;
 
 	TimeTicker m_ticker;
 
@@ -53,7 +53,7 @@ public:
 	virtual void detect();
 
 protected:
-	void setRequiredPosingStability(int value) { m_requiredPosingStability = value; }
+	void setRequiredPosingStability(float value) { m_requiredPosingStability = value; }
 
 	virtual bool isPosing(float dt);
 	virtual void onPoseDetected(float dt);

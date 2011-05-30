@@ -27,55 +27,18 @@
 //
 //@COPYRIGHT@//
 
-#ifndef _KAMEHAMEHA_DECECTOR_H_
-#define _KAMEHAMEHA_DETECTOR_H_
+#ifndef _CONFIGURABLE_H_
+#define _CONFIGURABLE_H_
 
-#include "common.h"
-#include "Configurable.h"
-#include "AbstractPoseDetector.h"
-#include "KamehamehaStatus.h"
-#include "KamehamehaRenderer.h"
-#include "HenshinDetector.h"
-#include "TimeTicker.h"
-#include <list>
+#include "Configuration.h"
 
-class KamehamehaDetector : public AbstractPoseDetector, Configurable
+class Configurable
 {
-private:
-	KamehamehaStatus* m_status;
-	KamehamehaRenderer* m_kkhRenderer;
-
-	struct TimeVectorEntry {
-		float dt;
-		XV3 v;
-
-		TimeVectorEntry(float dt, const XV3& v) { this->dt = dt, this->v = v; }
-	};
-	std::list<TimeVectorEntry> m_forwardVectorHistory;
-
-public:
-	KamehamehaDetector(HenshinDetector* henshinDetector, KamehamehaStatus* status, KamehamehaRenderer* kkhRenderer);
-	virtual ~KamehamehaDetector();
-
-	//
-	// posing detector methods
-	//
-
-	virtual bool isPosing(float dt);
-	virtual void onPoseDetected(float dt);
-	virtual void onDetectPost(float dt);
-
-private:
-	void transitTo(KamehamehaStatus::Stage stage);
-	void updateGeometry(const XV3& center, const XV3& base);
-	void updatePoseGrowth(float dt);
-	void updateForwardVectorHistory(float dt);
-	float getMotionIntensity();
-
-	float getHandDistanceThreshold();
-	float getArmStraightThreshold();
-	float getArmLevelThreshold();
-	float getMotionIntensityFactor();
+protected:
+	Configuration* getConfiguration()
+	{
+		return Configuration::getInstance();
+	}
 };
 
 #endif
