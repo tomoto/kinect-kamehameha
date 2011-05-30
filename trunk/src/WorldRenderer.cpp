@@ -205,7 +205,7 @@ void WorldRenderer::drawBackground()
 		float lightCoreRadius2 = square(lightCoreRadius);
 
 		bool isCalibration = (m_henshinDetector->getStage() == HenshinDetector::STAGE_CALIBRATION);
-		float calibrationGlowIntensity = sinf(m_henshinDetector->getCalibrationProgress() * float(M3D_PI)) * 0.5f;
+		float calibrationGlowIntensity = sinf(m_henshinDetector->getCalibrationProgress() * float(M3D_PI)) * 0.4f;
 
 		bool isTracked = userID && lp;
 		bool isLightened = isTracked && lightRadius > 0.0f;
