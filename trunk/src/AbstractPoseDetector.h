@@ -55,8 +55,10 @@ public:
 protected:
 	void setRequiredPosingStability(int value) { m_requiredPosingStability = value; }
 
-	virtual bool isPosing(float dt) = 0;
-	virtual void onPoseDetected(float dt) = 0;
+	virtual bool isPosing(float dt);
+	virtual void onPoseDetected(float dt);
+	virtual void onDetectPre(float dt);
+	virtual void onDetectPost(float dt);
 };
 
 #endif

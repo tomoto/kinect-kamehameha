@@ -72,6 +72,7 @@ std::string getResourceFile(const char* category, const char* name);
 GLuint readAlphaTexture(const char* file);
 
 /**
+ * @ja
  * 頂点の一覧をファイルから読み込んでGLBatchを作る
  */
 void readBatchDef(const char* file, const XnVector3D& origin, float scale, std::vector<GLBatch>* pBatches);
@@ -99,5 +100,7 @@ inline float convertRGBtoGray(float r, float g, float b)
 #endif
 
 float getPointSize();
+
+void renderStrokeText(const char* text, const XnVector3D& position, const XnVector3D& scale, float thickness, float color[4]);
 
 #endif

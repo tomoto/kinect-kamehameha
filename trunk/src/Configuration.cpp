@@ -27,49 +27,42 @@
 //
 //@COPYRIGHT@//
 
-#ifndef _KAMEHAMEHA_DECECTOR_H_
-#define _KAMEHAMEHA_DETECTOR_H_
 
-#include "common.h"
-#include "AbstractPoseDetector.h"
-#include "KamehamehaStatus.h"
-#include "KamehamehaRenderer.h"
-#include "HenshinDetector.h"
-#include "TimeTicker.h"
-#include <list>
+#include "Configuration.h"
 
-class KamehamehaDetector : public AbstractPoseDetector
+Configuration* Configuration::getInstance()
 {
-private:
-	KamehamehaStatus* m_status;
-	KamehamehaRenderer* m_kkhRenderer;
+	static Configuration s_instance;
+	return &s_instance;
+}
 
-	struct TimeVectorEntry {
-		float dt;
-		XV3 v;
+Configuration::Configuration()
+{
+	m_partyMode = PARTY_MODE_OFF;
+}
 
-		TimeVectorEntry(float dt, const XV3& v) { this->dt = dt, this->v = v; }
-	};
-	std::list<TimeVectorEntry> m_forwardVectorHistory;
+Configuration::~Configuration()
+{
+}
 
-public:
-	KamehamehaDetector(HenshinDetector* henshinDetector, KamehamehaStatus* status, KamehamehaRenderer* kkhRenderer);
-	virtual ~KamehamehaDetector();
+Configuration::PartyMode Configuration::getPartyMode() const
+{
+	return m_partyMode;
+}
 
-	//
-	// posing detector methods
-	//
+const char* s_getPartyModeDisplayName(Configuration::PartyMode value)
+{
+	static const char* s_displayNames[] = { "Off", "On", "-" };
+	return s_displayNames[value];
+}
 
-	virtual bool isPosing(float dt);
-	virtual void onPoseDetected(float dt);
-	virtual void onDetectPost(float dt);
+void Configuration::setPartyMode(PartyMode value)
+{
+	m_partyMode = value;
+	printf("Party Mode = %s\n", s_getPartyModeDisplayName(value));
+}
 
-private:
-	void transitTo(KamehamehaStatus::Stage stage);
-	void updateGeometry(const XV3& center, const XV3& base);
-	void updatePoseGrowth(float dt);
-	void updateForwardVectorHistory(float dt);
-	float getMotionIntensity();
-};
-
-#endif
+void Configuration::changePartyMode()
+{
+	setPartyMode(PartyMode((m_partyMode + 1) % PARTY_MODE_MAX));
+}

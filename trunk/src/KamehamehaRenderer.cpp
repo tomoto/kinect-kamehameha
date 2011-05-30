@@ -207,18 +207,6 @@ void KamehamehaRenderer::drawIntensityText()
 
 	XV3 p(-0.95f, -0.95f, 0.0f), s(0.001f, 0.002f, 1.0f);
 	float color[4] = { 1.0f, 0.0f, 0.0f, getCurrentIntensity() };
-	float thickness = 5.0f;
 
-	// TODO: clean up and move to util
-	glUseProgram(0);
-	glPushMatrix();
-	glLoadIdentity();
-	glTranslatef(p.X, p.Y, p.Z);
-	glScalef(s.X, s.Y, s.Z);
-	glLineWidth(getPointSize() * thickness);
-	glColor4fv(color);
-	for (const char* p = buf; *p; p++) {
-		glutStrokeCharacter(GLUT_STROKE_ROMAN, *p);
-	}
-	glPopMatrix();
+	renderStrokeText(buf, p, s, 5.0f, color);
 }

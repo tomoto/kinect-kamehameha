@@ -45,27 +45,35 @@ void HenshinDetector::transitToHuman()
 	printf("Henshin Stage = HUMAN\n");
 	m_stage = STAGE_HUMAN;
 	m_henshinProgress = 0;
+	m_calibrationProgress = 0;
 	m_userDetector->stopTracking();
+}
+
+void HenshinDetector::transitToCalibration()
+{
+	printf("Henshin Stage = CALIBRATION\n");
+	m_stage = STAGE_CALIBRATION;
+	m_henshinProgress = 0;
+	m_calibrationProgress = 0;
 }
 
 void HenshinDetector::transitToHenshined()
 {
 	printf("Henshin Stage = HENSHINED\n");
 	m_stage = STAGE_HENSHINED;
+	m_calibrationProgress = 0;
 	m_henshinProgress = 0;
 }
 
-bool HenshinDetector::isPosing(float dt)
+void HenshinDetector::onDetectPre(float dt)
 {
-	if (m_stage == STAGE_HENSHINED && m_henshinProgress < 1.0f) { 
-		m_henshinProgress = std::min(m_henshinProgress + 0.5f * dt, 1.0f);
+	if (m_stage == STAGE_HENSHINED) {
+		if (m_henshinProgress < 1.0f) { 
+			m_henshinProgress = std::min(m_henshinProgress + 0.5f * dt, 1.0f);
+		}
+	} else if (m_stage == STAGE_CALIBRATION) {
+		m_calibrationProgress += dt;
 	}
-
-	return false;
-}
-
-void HenshinDetector::onPoseDetected(float dt)
-{
 }
 
 //
@@ -85,6 +93,7 @@ void HenshinDetector::onLostUser(XnUserID userID)
 
 void HenshinDetector::onCalibrationStart(XnUserID userID)
 {
+	transitToCalibration();
 }
 
 void HenshinDetector::onCalibrationEnd(XnUserID userID, bool isSuccess)

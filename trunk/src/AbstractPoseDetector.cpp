@@ -45,12 +45,13 @@ void AbstractPoseDetector::detect()
 {
 	float dt = m_ticker.tick();
 
+	onDetectPre(dt);
+
 	XnUserID userID = m_userDetector->getTrackedUserID();
 	if (!userID) {
 		return;
 	}
 
-	// TODO: should be time instead of frame rate
 	if (isPosing(dt)) {
 		if (m_posingTicks < m_requiredPosingStability) {
 			m_posingTicks++;
@@ -63,4 +64,23 @@ void AbstractPoseDetector::detect()
 			m_posingTicks--;
 		}
 	}
+
+	onDetectPost(dt);
+}
+
+bool AbstractPoseDetector::isPosing(float dt)
+{
+	return false;
+}
+
+void AbstractPoseDetector::onPoseDetected(float dt)
+{
+}
+
+void AbstractPoseDetector::onDetectPre(float dt)
+{
+}
+
+void AbstractPoseDetector::onDetectPost(float dt)
+{
 }
