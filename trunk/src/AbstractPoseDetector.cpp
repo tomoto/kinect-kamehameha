@@ -34,7 +34,7 @@ AbstractPoseDetector::AbstractPoseDetector(UserDetector* userDetector)
 	m_userDetector = userDetector;
 
 	m_requiredPosingStability = 0;
-	m_posingTicks = 0;
+	m_posingTime = 0;
 }
 
 AbstractPoseDetector::~AbstractPoseDetector()
@@ -53,15 +53,15 @@ void AbstractPoseDetector::detect()
 	}
 
 	if (isPosing(dt)) {
-		if (m_posingTicks < m_requiredPosingStability) {
-			m_posingTicks++;
+		if (m_posingTime < m_requiredPosingStability) {
+			m_posingTime += dt;
 		}
-		if (m_posingTicks >= m_requiredPosingStability) {
+		if (m_posingTime >= m_requiredPosingStability) {
 			onPoseDetected(dt);
 		}
 	} else {
-		if (m_posingTicks > 0) {
-			m_posingTicks--;
+		if (m_posingTime > 0) {
+			m_posingTime = std::max(m_posingTime - dt, 0.0f);
 		}
 	}
 
