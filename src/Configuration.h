@@ -27,49 +27,32 @@
 //
 //@COPYRIGHT@//
 
-#ifndef _KAMEHAMEHA_DECECTOR_H_
-#define _KAMEHAMEHA_DETECTOR_H_
+#ifndef _CONFIGURATION_H_
+#define _CONFIGURATION_H_
 
 #include "common.h"
-#include "AbstractPoseDetector.h"
-#include "KamehamehaStatus.h"
-#include "KamehamehaRenderer.h"
-#include "HenshinDetector.h"
-#include "TimeTicker.h"
-#include <list>
 
-class KamehamehaDetector : public AbstractPoseDetector
+class Configuration
 {
-private:
-	KamehamehaStatus* m_status;
-	KamehamehaRenderer* m_kkhRenderer;
-
-	struct TimeVectorEntry {
-		float dt;
-		XV3 v;
-
-		TimeVectorEntry(float dt, const XV3& v) { this->dt = dt, this->v = v; }
+public:
+	enum PartyMode {
+		PARTY_MODE_OFF,
+		PARTY_MODE_ON,
+		PARTY_MODE_MAX,
 	};
-	std::list<TimeVectorEntry> m_forwardVectorHistory;
+
+	static Configuration* getInstance();
+
+private:
+	PartyMode m_partyMode;
 
 public:
-	KamehamehaDetector(HenshinDetector* henshinDetector, KamehamehaStatus* status, KamehamehaRenderer* kkhRenderer);
-	virtual ~KamehamehaDetector();
+	Configuration();
+	~Configuration();
 
-	//
-	// posing detector methods
-	//
-
-	virtual bool isPosing(float dt);
-	virtual void onPoseDetected(float dt);
-	virtual void onDetectPost(float dt);
-
-private:
-	void transitTo(KamehamehaStatus::Stage stage);
-	void updateGeometry(const XV3& center, const XV3& base);
-	void updatePoseGrowth(float dt);
-	void updateForwardVectorHistory(float dt);
-	float getMotionIntensity();
+	PartyMode getPartyMode() const;
+	void setPartyMode(PartyMode value);
+	void changePartyMode();
 };
 
 #endif

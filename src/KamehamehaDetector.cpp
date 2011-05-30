@@ -28,6 +28,7 @@
 //@COPYRIGHT@//
 
 #include "KamehamehaDetector.h"
+#include "Configuration.h"
 #include "util.h"
 
 KamehamehaDetector::KamehamehaDetector(HenshinDetector* henshinDetector, KamehamehaStatus* status, KamehamehaRenderer* kkhRenderer) :
@@ -48,10 +49,8 @@ void KamehamehaDetector::transitTo(KamehamehaStatus::Stage stage)
 	m_status->stage = stage;
 }
 
-void KamehamehaDetector::detect()
+void KamehamehaDetector::onDetectPost(float dt)
 {
-	AbstractPoseDetector::detect();
-
 	if (m_status->stage == KamehamehaStatus::STAGE_SHOOT && !m_kkhRenderer->isActive()) {
 		transitTo(KamehamehaStatus::STAGE_COOLINGDOWN);
 	}
@@ -63,11 +62,27 @@ inline float getHandDistanceThreshold()
 }
 
 inline float getArmStraightThreshold() {
-	return 0.8f;
+	if (Configuration::getInstance()->getPartyMode() == Configuration::PARTY_MODE_OFF) {
+		return 0.8f;
+	} else {
+		return 0.75f; // bonus
+	}
 }
 
 inline float getArmLevelThreshold() {
-	return 0.2f;
+	if (Configuration::getInstance()->getPartyMode() == Configuration::PARTY_MODE_OFF) {
+		return 0.2f;
+	} else {
+		return 0.25f; // bonus
+	}
+}
+
+inline float getMotionIntensityFactor() {
+	if (Configuration::getInstance()->getPartyMode() == Configuration::PARTY_MODE_OFF) {
+		return 0.8f;
+	} else {
+		return 0.6f; // do not care about the motion much
+	}
 }
 
 inline float getArmVerticalDiff(const XV3& v)
@@ -142,7 +157,7 @@ void KamehamehaDetector::onPoseDetected(float dt)
 		case KamehamehaStatus::STAGE_READY:
 			{
 				float motionIntensity = getMotionIntensity();
-				float intensity = m_status->getGrowth() * motionIntensity * 0.8f;
+				float intensity = m_status->getGrowth() * motionIntensity * getMotionIntensityFactor();
 				if (intensity > 0.2f) {
 					printf("INTENSITY=%.3f (TIME=%.3f, POSE=%.3f, MOTION=%.3f)\n", intensity, m_status->timeGrowth, m_status->poseGrowth, motionIntensity);
 					m_kkhRenderer->shoot(m_status->center, m_status->forward, intensity);
@@ -194,6 +209,10 @@ void KamehamehaDetector::updatePoseGrowth(float dt)
 		g *= 1.6f;
 	}
 
+	if (Configuration::getInstance()->getPartyMode() == Configuration::PARTY_MODE_ON) {
+		g += 0.8f; // bonus
+	}
+
 	m_status->poseGrowth += cramp(0.5f + g - m_status->poseGrowth, -0.25f, 0.25f) * dt;
 }
 
@@ -223,6 +242,10 @@ float KamehamehaDetector::getMotionIntensity()
 
 	// @ja ³–ÊŒü‚«‚ÅŒ‚‚Âê‡‚É‚ÍŒŸ’n‚µ‚É‚­‚¢‚Ì‚Å­‚µ’êã‚°‚µ‚Ä‚ ‚°‚é
 	float adjustment = square(front.dot(latest)) * 0.3f;
+
+	if (Configuration::getInstance()->getPartyMode() == Configuration::PARTY_MODE_ON) {
+		adjustment += 0.5f; // bonus
+	}
 
 	return (1.0f - oldest.dot(latest) * 0.75f) + adjustment;
 }

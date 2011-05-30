@@ -1,5 +1,10 @@
 kinect-kamehameha Change History
 
+* 5/30/2011 V0.1c
+
+  * Added "Party Mode". Hit [P] key and enjoy easy blast!
+  * Added glow during calibration
+
 * 2/2/2011 V0.1b
 
   * Fixed a bug that the hair was not rendered in the mirror mode.

@@ -88,7 +88,7 @@ private:
 	void getHenshinData(XnUserID* pUserID, const XnLabel** ppLabel, XV3* pLightCenter, XV3* pHeadCenter, XV3* pHeadDirection);
 
 	void drawBackground();
-	// void drawHenshiningGlow();
+	void drawModeText();
 
 	float normalizeX(float x) { return (m_width - x * 2.0f) / m_height; }
 	float normalizeY(float y) { return 1.0f - (y * 2.0f / m_height); }

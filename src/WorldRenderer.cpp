@@ -28,6 +28,7 @@
 //@COPYRIGHT@//
 
 #include "WorldRenderer.h"
+#include "Configuration.h"
 #include "config.h"
 #include <GLFrustum.h>
 #include "util.h"
@@ -83,13 +84,12 @@ WorldRenderer::~WorldRenderer()
 void WorldRenderer::getHenshinData(XnUserID* pUserID, const XnLabel** ppLabel, XV3* pLightCenter, XV3* pHeadCenter, XV3* pHeadDirection)
 {
 	UserDetector* userDetector = m_henshinDetector->getUserDetector();
-	XnUserID userID = *pUserID = userDetector->getTrackedUserID();
 
-	if (userID) {
-		SceneMetaData smd;
-		userDetector->getUserGenerator()->GetUserPixels(userID, smd);
-		*ppLabel = smd.Data();
+	SceneMetaData smd;
+	userDetector->getUserGenerator()->GetUserPixels(0, smd);
+	*ppLabel = smd.Data();
 
+	if (*pUserID = userDetector->getTrackedUserID()) {
 		XV3 ps[3];
 		ps[0].assign(m_kkhStatus->center);
 		ps[1].assign(userDetector->getSkeletonJointPosition(XN_SKEL_HEAD));
@@ -204,6 +204,9 @@ void WorldRenderer::drawBackground()
 		float lightCoreRadius = lightRadius * 0.25f + currentIntensity * 0.02f;
 		float lightCoreRadius2 = square(lightCoreRadius);
 
+		bool isCalibration = (m_henshinDetector->getStage() == HenshinDetector::STAGE_CALIBRATION);
+		float calibrationGlowIntensity = sinf(m_henshinDetector->getCalibrationProgress() * float(M3D_PI)) * 0.5f;
+
 		bool isTracked = userID && lp;
 		bool isLightened = isTracked && lightRadius > 0.0f;
 
@@ -233,10 +236,10 @@ void WorldRenderer::drawBackground()
 
 			setRGB(cp, *ip);
 
-			// aura
-			if (isTracked && iy > 0) {
-				if (*lp  == userID && (*(lp-m_width) != userID || *(lp-1) != userID || *(lp+1) != userID)) {
-					M3DVector4f* auraSourcePtr= cp;
+			if (isTracked) {
+				// aura and hair
+				if (iy > 0 && *lp  == userID && (*(lp-m_width) != userID || *(lp-1) != userID || *(lp+1) != userID)) {
+					M3DVector4f* auraSourcePtr = cp;
 
 					// hair
 					// TODO: clean up!
@@ -274,6 +277,15 @@ void WorldRenderer::drawBackground()
 						(*ap)[2] = interpolate((*ap)[2], 0.4f, a);
 					}
 
+				}
+			}
+			
+			if (isCalibration) {
+				// glow for calibration
+				if (*lp > 0) { // TODO: check user ID if it is under calibration
+					(*cp)[0] = interpolate((*cp)[0], 0.9f, calibrationGlowIntensity);
+					(*cp)[1] = interpolate((*cp)[1], 1.0f, calibrationGlowIntensity);
+					(*cp)[2] = interpolate((*cp)[2], 0.4f, calibrationGlowIntensity);
 				}
 			}
 
@@ -314,6 +326,20 @@ void WorldRenderer::drawBackground()
 		m_batch.draw(m_vertexBuf, m_colorBuf);
 	}
 	m_rctx->orthoMatrix.PopMatrix();
+
+	drawModeText();
+}
+
+
+void WorldRenderer::drawModeText()
+{
+	if (Configuration::getInstance()->getPartyMode() == Configuration::PARTY_MODE_ON) {
+		const char* text = "Party Mode";
+
+		XV3 p(0.62f, -0.95f, 0.0f), s(0.0005f, 0.001f, 1.0f);
+		float color[4] = { 1.0f, 0.0f, 0.0f, 0.7f };
+		renderStrokeText("Party Mode", p, s, 2.0f, color);
+	}
 }
 
 WorldRenderer::Batch::Batch()
@@ -368,3 +394,4 @@ void WorldRenderer::Batch::draw(M3DVector3f* vertexBuf, M3DVector4f* colorBuf)
 	glDrawArrays(GL_POINTS, 0, m_numPoints);
 	glBindVertexArray(0);
 }
+

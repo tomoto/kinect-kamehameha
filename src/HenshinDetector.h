@@ -40,11 +40,13 @@ class HenshinDetector : public AbstractPoseDetector, UserListener
 public:
 	enum Stage {
 		STAGE_HUMAN,
+		STAGE_CALIBRATION,
 		STAGE_HENSHINED
 	};
 
 private:
 	Stage m_stage;
+	float m_calibrationProgress;
 	float m_henshinProgress;
 
 public:
@@ -53,10 +55,10 @@ public:
 
 	UserDetector* getUserDetector() { return m_userDetector; }
 	HenshinDetector::Stage getStage() { return m_stage; }
+	float getCalibrationProgress() { return m_calibrationProgress; }
 	float getHenshinProgress() { return m_henshinProgress; }
 
-	virtual bool isPosing(float dt);
-	virtual void onPoseDetected(float dt);
+	virtual void onDetectPre(float dt);
 
 	//
 	// user listener methods
@@ -71,6 +73,7 @@ public:
 
 private:
 	void transitToHuman();
+	void transitToCalibration();
 	void transitToHenshined();
 };
 

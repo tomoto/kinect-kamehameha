@@ -31,6 +31,7 @@
 #include "config.h"
 #include "util.h"
 
+#include "Configuration.h"
 #include "RenderingContext.h"
 
 #include "WorldRenderer.h"
@@ -44,7 +45,7 @@
 #include <GLShaderManager.h>
 #include <GLFrustum.h>
 
-#define APP_VERSION "0.1c-rc"
+#define APP_VERSION "0.1c"
 
 // OpenNI objects
 Context g_context;
@@ -88,6 +89,9 @@ static void onGlutKeyboard(unsigned char key, int x, int y)
 			break;
 		case 'm':
 			g_renderingCtx.mirror();
+			break;
+		case 'p':
+			Configuration::getInstance()->changePartyMode();
 			break;
 	}
 }
@@ -237,6 +241,7 @@ static void displayWelcomeMessage()
 		puts("[f]    -- Output framerate to the console.");
 		puts("[m]    -- Mirror the screen.");
 		puts("[s]    -- Toggle skeleton (for troubleshooting).");
+		puts("[p]    -- Toggle \"Party Mode\" to make it easy to blast!");
 		puts("");
 		puts("It may take a minute until initialization completes... Enjoy!");
 		puts("");
