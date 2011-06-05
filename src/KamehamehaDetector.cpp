@@ -94,22 +94,30 @@ bool KamehamehaDetector::isPosing(float dt)
 	// TODO: more clean up
 
 	// get skeleton
-	XnSkeletonJointPosition jrh, jre, jrs, jlh, jle, jls;
+	XnSkeletonJointPosition jrh, jre, jrs, jlh, jle, jls, jhd;
 	m_userDetector->getSkeletonJointPosition(XN_SKEL_RIGHT_HAND, &jrh);
 	m_userDetector->getSkeletonJointPosition(XN_SKEL_RIGHT_ELBOW, &jre);
 	m_userDetector->getSkeletonJointPosition(XN_SKEL_RIGHT_SHOULDER, &jrs);
 	m_userDetector->getSkeletonJointPosition(XN_SKEL_LEFT_HAND, &jlh);
 	m_userDetector->getSkeletonJointPosition(XN_SKEL_LEFT_ELBOW, &jle);
 	m_userDetector->getSkeletonJointPosition(XN_SKEL_LEFT_SHOULDER, &jls);
+	m_userDetector->getSkeletonJointPosition(XN_SKEL_HEAD, &jhd);
 
 	XV3 prh(jrh.position), pre(jre.position), prs(jrs.position);
 	XV3 plh(jlh.position), ple(jle.position), pls(jls.position);
+	XV3 phd(jhd.position);
 
 	// check if boths hands are close
 
 	bool areBothHandsClose =
 		(isConfident(jrh) || isConfident(jlh)) &&
 		prh.distance2(plh) < square(getHandDistanceThreshold());
+
+	// genki-dama experimental
+	if (isConfident(jrh) && isConfident(jlh) & isConfident(jhd) &&
+			prh.Y > pre.Y && pre.Y > phd.Y && plh.Y > ple.Y && ple.Y > phd.Y) {
+		areBothHandsClose= true;
+	}
 
 	if (m_status->stage == KamehamehaStatus::STAGE_READY && areBothHandsClose) {
 		updateGeometry(prh.interpolate(plh), prs.interpolate(pls));
