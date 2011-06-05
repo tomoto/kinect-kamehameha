@@ -45,7 +45,7 @@
 #include <GLShaderManager.h>
 #include <GLFrustum.h>
 
-#define APP_VERSION "0.1c"
+#define APP_VERSION "0.1d-rc"
 
 // OpenNI objects
 Context g_context;
@@ -217,6 +217,7 @@ static void initRenderers()
 	LOG( g_worldRenderer = new WorldRenderer(&g_renderingCtx, &g_depthGen, &g_imageGen, g_henshinDetector, &g_kkhStatus) );
 	LOG( g_skeletonRenderer = new SkeletonRenderer(&g_renderingCtx, &g_depthGen, g_userDetector, g_henshinDetector) );
 	LOG( g_kkhDetector = new KamehamehaDetector(g_henshinDetector, &g_kkhStatus, g_kkhRenderer) );
+	LOG( g_renderingCtx.mirror() ); // flip the screen by default
 }
 
 static void displayWelcomeMessage()
