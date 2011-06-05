@@ -76,6 +76,13 @@ void HenshinDetector::onDetectPre(float dt)
 	}
 }
 
+void HenshinDetector::reset()
+{
+	m_userDetector->stopTracking();
+	transitToHuman();
+}
+
+
 //
 // listener methods
 //

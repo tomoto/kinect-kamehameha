@@ -93,6 +93,9 @@ static void onGlutKeyboard(unsigned char key, int x, int y)
 		case 'p':
 			Configuration::getInstance()->changePartyMode();
 			break;
+		case 'r':
+			g_henshinDetector->reset();
+			break;
 	}
 }
 
@@ -241,8 +244,9 @@ static void displayWelcomeMessage()
 		//puts("[q][a] -- Adjust the depth of 3D virtual objects.");
 		puts("[f]    -- Output framerate to the console.");
 		puts("[m]    -- Mirror the screen.");
-		puts("[s]    -- Toggle skeleton (for troubleshooting).");
+		puts("[r]    -- Reset the player. Use this to switch the player.");
 		puts("[p]    -- Toggle \"Party Mode\" to make it easy to blast!");
+		puts("[s]    -- Toggle skeleton (for troubleshooting).");
 		puts("");
 		puts("It may take a minute until initialization completes... Enjoy!");
 		puts("");
