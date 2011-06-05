@@ -57,6 +57,7 @@ public:
 	HenshinDetector::Stage getStage() { return m_stage; }
 	float getCalibrationProgress() { return m_calibrationProgress; }
 	float getHenshinProgress() { return m_henshinProgress; }
+	void reset();
 
 	virtual void onDetectPre(float dt);
 
