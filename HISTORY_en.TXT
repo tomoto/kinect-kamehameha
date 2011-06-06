@@ -1,5 +1,11 @@
 kinect-kamehameha Change History
 
+* 6/5/2011 V0.1d
+
+  * Mirror mode enabled by default
+  * Added player reset by [R] key for switching the player
+  * Experimental Genki-Dama support
+
 * 5/30/2011 V0.1c
 
   * Added "Party Mode". Hit [P] key and enjoy easy blast!

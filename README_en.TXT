@@ -1,6 +1,6 @@
-kinect-kamehameha V0.1c
+kinect-kamehameha V0.1d
 Author: Tomoto S. Washio
-Release Date: 5/30/2011
+Release Date: 6/5/2011
 Project URL: http://code.google.com/p/kinect-kamehameha/
 
 1. Prerequisitive
