@@ -1,5 +1,10 @@
 kinect-kamehameha Change History
 
+* 9/18/2011 V0.1e
+
+  * Supported toggle full-screen by [ENTER]
+  * Maintains aspect ratio when resizing the window
+
 * 6/5/2011 V0.1d
 
   * Mirror mode enabled by default
