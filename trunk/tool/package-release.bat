@@ -1,8 +1,8 @@
 @rem Note: (1) Set VER to release version. (2) Install ActivePerl.
 
 setlocal
-set VER=0.1d
-set TARGET=release\kinect-kamehameha-%VER%
+set VER=0.1e
+set TARGET=release\kinect-kamehameha_%VER%
 rmdir /s /q %TARGET%
 mkdir %TARGET%
 xcopy ..\data %TARGET%\data\ /e
