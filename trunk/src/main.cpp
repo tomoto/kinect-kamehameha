@@ -45,7 +45,7 @@
 #include <GLShaderManager.h>
 #include <GLFrustum.h>
 
-#define APP_VERSION "0.1d"
+#define APP_VERSION "0.1e"
 
 // OpenNI objects
 Context g_context;
@@ -264,5 +264,6 @@ void main(int argc, char* argv[])
 	initXN();
 	initRenderers();
 	glutShowWindow();
+	glutFullScreen();
 	glutMainLoop();
 }
