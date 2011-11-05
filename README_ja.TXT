@@ -1,6 +1,6 @@
-kinect-kamehameha V0.1e
+kinect-kamehameha V0.1f-rc
 Author: Tomoto S. Washio
-Release Date: 2011/9/18
+Release Date: 2011/**/**
 Project URL: http://code.google.com/p/kinect-kamehameha/
 
 0. これは何？
@@ -46,8 +46,10 @@ Project URL: http://code.google.com/p/kinect-kamehameha/
 
 3. 使い方
 
-(1) kinect-kamehameha.exeを実行するだけです。作業ディレクトリは実行ファイルと
-    同じ場所にしてください。
+(1) kinect-kamehameha.exeを実行するだけです。
+    - 作業ディレクトリは実行ファイルと同じ場所にしてください。
+    - [ESC]キーで終了します。
+    - [Enter]キーで画面を最大化します。
 
 (2) 下記でデモが見られます。
     - 日本語

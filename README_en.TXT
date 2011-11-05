@@ -1,6 +1,6 @@
-kinect-kamehameha V0.1e
+kinect-kamehameha V0.1f-rc
 Author: Tomoto S. Washio
-Release Date: 9/18/2011
+Release Date: **/**/2011
 Project URL: http://code.google.com/p/kinect-kamehameha/
 
 0. What's this?
@@ -49,8 +49,10 @@ looks like Kamehameha for Dragon Ball.
 
 3. How to Use
 
-(1) Just run kinect-kamehameha.exe. Set the working directory to the same
-    location as the executable.
+(1) Just run kinect-kamehameha.exe.
+    - Set the working directory to the same location as the executable.
+    - Hit [ESC] key to end.
+    - Hit [Enter] key to make it full screen.
 
 (2) See the demo at:
     - English

@@ -296,5 +296,6 @@ void main(int argc, char* argv[])
 	initXN();
 	initRenderers();
 	glutShowWindow();
+	// toggleFullScreenMode(); // remove comment to run in the full-screen mode by default
 	glutMainLoop();
 }
