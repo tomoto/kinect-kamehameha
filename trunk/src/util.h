@@ -31,6 +31,7 @@
 #define _UTIL_H_
 
 #include "common.h"
+#include "config.h"
 
 const float CONFIDENCE_THRESHOLD = 0.5f;
 #ifndef USE_MACRO
@@ -103,5 +104,9 @@ float getPointSize();
 void renderStrokeText(const char* text, const XnVector3D& position, const XnVector3D& scale, float thickness, float color[4]);
 
 void getAspectRatioAdjustment(float targetAspectRatio, float areaAspectRatio, float* pScaleX, float *pScaleY);
+
+void adjustViewport();
+
+void toggleFullScreenMode();
 
 #endif
