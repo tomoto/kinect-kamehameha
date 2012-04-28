@@ -1,5 +1,12 @@
 kinect-kamehameha Change History
 
+* 4/28/2012 V1.0a
+
+  * Added Kinect SDK version
+  * Support complete player switching by [R] key
+  * Changed the way of flashing the body in the calibration phase
+    as Psi pose is no longer required
+
 * 9/18/2011 V0.1e
 
   * Supported toggle full-screen by [ENTER]

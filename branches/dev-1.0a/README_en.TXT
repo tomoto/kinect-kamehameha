@@ -1,6 +1,6 @@
-kinect-kamehameha V0.1f-rc
+kinect-kamehameha V1.0a
 Author: Tomoto S. Washio
-Release Date: **/**/2011
+Release Date: 4/28/2011
 Project URL: http://code.google.com/p/kinect-kamehameha/
 
 0. What's this?
@@ -24,28 +24,19 @@ looks like Kamehameha for Dragon Ball.
 
 2. Installation
 
-(1) If you have not yet done, download OpenNI and install it.
-    http://www.openni.org/downloadfiles/opennimodules/2-openni-binaries
+(1) If you have not yet done, download Kinect SDK and install it.
+    http://www.kinectforwindows.org
 
-(2) If you have not yet done, download NITE and install it.
-    http://www.openni.org/downloadfiles/opennimodules/12-openni-compliant-middleware-binaries
+(2) Unpack this archive anywhere you like.
 
-    Use the following string as the license key during installation:
-    0KOIk2JeIBYClPWVnMoRKn5cdY4=
+2.2 For OpenNI version
 
-(3) If you have not yet done, download OpenNI-compatible Kinect driver
-    and install it.
-    https://github.com/avin2/SensorKinect/tree/master/Bin
-
-    If you already have OpenKinect or other drivers installed, you will
-    need to switch those drivers.
-
-    The recommended versions of above software components are posted at
-    the URL below as to today's best knowledge. It may change, so check
-    out the project site for the up-to-date information.
+(1) If you have not yet done, download OpenNI and other related
+    software and install them. The procedure changes often so see the
+    information at the URL below.
     http://code.google.com/p/kinect-ultra/wiki/OpenNI_Downloads
 
-(4) Unpack this archive anywhere you like.
+(2) Unpack this archive anywhere you like.
 
 3. How to Use
 
@@ -71,9 +62,9 @@ See LICENSE.TXT.
 5. Build
 
 If you want to build this program yourself or modify, go to the project
-page, download the source code, and open build/kinect-kamehameha.sln with
-Visual C++ 2008 or 2010. To use debugger, set the working directory to ".."
-in the project's preference.
+page, download the source code, and open build2010/kinect-ultra.sln with
+Visual C++ 2010. To use debugger, set the working directory to ".." in
+the project's preference.
 
 Enjoy!
 Tomoto

@@ -1,6 +1,6 @@
-kinect-kamehameha V0.1f-rc
+kinect-kamehameha V1.0a
 Author: Tomoto S. Washio
-Release Date: 2011/**/**
+Release Date: 2011/4/28
 Project URL: http://code.google.com/p/kinect-kamehameha/
 
 0. これは何？
@@ -22,27 +22,22 @@ Project URL: http://code.google.com/p/kinect-kamehameha/
 
 2. インストール
 
-(1) もしまだであれば、OpenNIをダウンロード、インストールしてください。
-    http://www.openni.org/downloadfiles/opennimodules/2-openni-binaries
+(1) もしまだであれば、Kinect SDKをダウンロード、インストールしてください。
+    http://www.kinectforwindows.org
 
-(2) もしまだであれば、NITEをダウンロード、インストールしてください。
-    http://www.openni.org/downloadfiles/opennimodules/12-openni-compliant-middleware-binaries
+(2) このアーカイブを好きなところに展開してください。
 
-    ライセンスキーはこれを使ってください: 0KOIk2JeIBYClPWVnMoRKn5cdY4=
+2.2 OpenNI版
 
-(3) もしまだであれば、OpenNI互換Kinectドライバをダウンロード、
-    インストールしてください。
-    https://github.com/avin2/SensorKinect/tree/master/Bin
+(1) もしまだであれば、OpenNIと関連ソフトウェア一式をダウンロード、
+    インストールしてください。やり方がよく変わるので次のページを
+    参考にしてください。
+    http://code.google.com/p/kinect-ultra/wiki/OpenNI_Downloads
 
     OpenKinectなど、他のドライバを既にインストールしている場合、
     ドライバを切り替える必要があるでしょう。
 
-    上記ソフトウェアの推奨バージョンを、現在知る限りにおいて、
-    下記ページに掲載しています。推奨バージョンは変わる可能性が
-    あるので、ときどきサイトを見て最新情報をチェックしてください。
-    http://code.google.com/p/kinect-ultra/wiki/OpenNI_Downloads
-
-(4) このアーカイブを好きなところに展開してください。
+(2) このアーカイブを好きなところに展開してください。
 
 3. 使い方
 
@@ -68,9 +63,9 @@ LICENSE.TXTを見てください。
 5. ビルド方法
 
 自分でソースからビルドしたり変更したいという方は、プロジェクトページから
-ソースコードをダウンロードし、build/kinect-kamehameha.slnをVisual C++ 2008
-または2010で開いてください。デバッガを使うには、プロジェクトの設定で
-作業ディレクトリを ".." に設定してください。
+ソースコードをダウンロードし、build2010/kinect-ultra.slnをVisual C++ 2010で
+開いてください。デバッガを使うには、プロジェクトの設定で作業ディレクトリを
+".." に設定してください。
 
 Enjoy!
 Tomoto
