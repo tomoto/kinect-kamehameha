@@ -94,14 +94,14 @@ bool KamehamehaDetector::isPosing(float dt)
 	// TODO: more clean up
 
 	// get skeleton
-	XnSkeletonJointPosition jrh, jre, jrs, jlh, jle, jls, jhd;
-	m_userDetector->getSkeletonJointPosition(XN_SKEL_RIGHT_HAND, &jrh);
-	m_userDetector->getSkeletonJointPosition(XN_SKEL_RIGHT_ELBOW, &jre);
-	m_userDetector->getSkeletonJointPosition(XN_SKEL_RIGHT_SHOULDER, &jrs);
-	m_userDetector->getSkeletonJointPosition(XN_SKEL_LEFT_HAND, &jlh);
-	m_userDetector->getSkeletonJointPosition(XN_SKEL_LEFT_ELBOW, &jle);
-	m_userDetector->getSkeletonJointPosition(XN_SKEL_LEFT_SHOULDER, &jls);
-	m_userDetector->getSkeletonJointPosition(XN_SKEL_HEAD, &jhd);
+	XuSkeletonJointInfo jrh, jre, jrs, jlh, jle, jls, jhd;
+	m_userDetector->getSkeletonJointInfo(XU_SKEL_RIGHT_HAND, &jrh);
+	m_userDetector->getSkeletonJointInfo(XU_SKEL_RIGHT_ELBOW, &jre);
+	m_userDetector->getSkeletonJointInfo(XU_SKEL_RIGHT_SHOULDER, &jrs);
+	m_userDetector->getSkeletonJointInfo(XU_SKEL_LEFT_HAND, &jlh);
+	m_userDetector->getSkeletonJointInfo(XU_SKEL_LEFT_ELBOW, &jle);
+	m_userDetector->getSkeletonJointInfo(XU_SKEL_LEFT_SHOULDER, &jls);
+	m_userDetector->getSkeletonJointInfo(XU_SKEL_HEAD, &jhd);
 
 	XV3 prh(jrh.position), pre(jre.position), prs(jrs.position);
 	XV3 plh(jlh.position), ple(jle.position), pls(jls.position);
@@ -193,11 +193,11 @@ static float calcPoseGrowthFactor(const XV3& h, const XV3& k)
 
 void KamehamehaDetector::updatePoseGrowth(float dt)
 {
-	XnSkeletonJointPosition jrh, jrk, jlh, jlk;
-	m_userDetector->getSkeletonJointPosition(XN_SKEL_RIGHT_HIP, &jrh);
-	m_userDetector->getSkeletonJointPosition(XN_SKEL_RIGHT_KNEE, &jrk);
-	m_userDetector->getSkeletonJointPosition(XN_SKEL_LEFT_HIP, &jlh);
-	m_userDetector->getSkeletonJointPosition(XN_SKEL_LEFT_KNEE, &jlk);
+	XuSkeletonJointInfo jrh, jrk, jlh, jlk;
+	m_userDetector->getSkeletonJointInfo(XU_SKEL_RIGHT_HIP, &jrh);
+	m_userDetector->getSkeletonJointInfo(XU_SKEL_RIGHT_KNEE, &jrk);
+	m_userDetector->getSkeletonJointInfo(XU_SKEL_LEFT_HIP, &jlh);
+	m_userDetector->getSkeletonJointInfo(XU_SKEL_LEFT_KNEE, &jlk);
 
 	float g = 0;
 	int numOfValidPoints = 0;

@@ -208,5 +208,5 @@ void KamehamehaRenderer::drawIntensityText()
 	XV3 p(-0.95f, -0.95f, 0.0f), s(0.001f, 0.002f, 1.0f);
 	float color[4] = { 1.0f, 0.0f, 0.0f, getCurrentIntensity() };
 
-	renderStrokeText(buf, p, s, 5.0f, color);
+	renderStrokeText(m_rctx, buf, p, s, 5.0f, color);
 }
