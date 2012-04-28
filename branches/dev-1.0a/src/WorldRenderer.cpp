@@ -36,30 +36,28 @@
 
 const float DEFAULT_DEPTH_ADJUSTMENT = 105; // empirical valuel. adjustable by 'q' and 'a' key.
 
-WorldRenderer::WorldRenderer(RenderingContext* rctx, DepthGenerator* depthGen, ImageGenerator* imageGen,
+WorldRenderer::WorldRenderer(RenderingContext* rctx, DepthProvider* depthProvider, ImageProvider* imageProvider,
 							 HenshinDetector* henshinDetector, KamehamehaStatus* kkhStatus)
 : AbstractOpenGLRenderer(rctx)
 {
-	m_depthGen = depthGen;
-	m_imageGen = imageGen;
+	m_depthProvider = depthProvider;
+	m_imageProvider = imageProvider;
 	m_henshinDetector = henshinDetector;
 	m_kkhStatus = kkhStatus;
 
-	DepthMetaData dmd;
-	m_depthGen->GetMetaData(dmd);
-	m_width = dmd.XRes();
-	m_height = dmd.YRes();
+	m_width = X_RES;
+	m_height = Y_RES;
 
 	// allocate working buffers
-	XnUInt32 numPoints = getNumPoints();
+	DWORD numPoints = getNumPoints();
 	m_vertexBuf = new M3DVector3f[numPoints];
 	m_colorBuf = new M3DVector4f[numPoints];
 
 	// pre-set values on working buffers
 	M3DVector3f* vp = m_vertexBuf;
 	M3DVector4f* cp = m_colorBuf;
-	for (XnUInt32 iy = 0; iy < m_height; iy++) {
-		for (XnUInt32 ix = 0; ix < m_width; ix++) {
+	for (DWORD iy = 0; iy < m_height; iy++) {
+		for (DWORD ix = 0; ix < m_width; ix++) {
 			(*vp)[0] = normalizeX(float(ix));
 			(*vp)[1] = normalizeY(float(iy));
 			(*vp)[2] = 0;
@@ -81,23 +79,24 @@ WorldRenderer::~WorldRenderer()
 	delete[] m_colorBuf;
 }
 
-void WorldRenderer::getHenshinData(XnUserID* pUserID, const XnLabel** ppLabel, XV3* pLightCenter, XV3* pHeadCenter, XV3* pHeadDirection)
+void WorldRenderer::getHenshinData(XuUserID* pUserID, const XuRawUserIDPixel** ppLabel, XV3* pLightCenter, XV3* pHeadCenter, XV3* pHeadDirection)
 {
 	UserDetector* userDetector = m_henshinDetector->getUserDetector();
 
-	SceneMetaData smd;
-	userDetector->getUserGenerator()->GetUserPixels(0, smd);
-	*ppLabel = smd.Data();
+	*ppLabel = m_depthProvider->getUserIDData();
 
 	if (*pUserID = userDetector->getTrackedUserID()) {
 		XV3 ps[3];
 		ps[0].assign(m_kkhStatus->center);
-		ps[1].assign(userDetector->getSkeletonJointPosition(XN_SKEL_HEAD));
-		ps[2].assign(userDetector->getSkeletonJointPosition(XN_SKEL_NECK));
-		m_depthGen->ConvertRealWorldToProjective(3, ps, ps);
-		normalizeProjective(&ps[0]);
-		normalizeProjective(&ps[1]);
-		normalizeProjective(&ps[2]);
+		ps[1].assign(userDetector->getSkeletonJointPosition(XU_SKEL_HEAD));
+		ps[2].assign(userDetector->getSkeletonJointPosition(XU_SKEL_NECK));
+		for (int i = 0; i < 3; i++) {
+			LONG x, y;
+			XuRawDepthPixel z;
+			m_depthProvider->transformSkeletonToDepthImage(ps[i], &x, &y, &z);
+			ps[i].assign(float(x), float(y), float(GetDepthFromRawPixel(z)));
+			normalizeProjective(&ps[i]);
+		}
 		*pLightCenter = ps[0];
 		*pHeadCenter = ps[1];
 		*pHeadDirection = ps[1] - ps[2];
@@ -174,26 +173,22 @@ void WorldRenderer::drawBackground()
 		m_rctx->shaderMan->UseStockShader(GLT_SHADER_SHADED, m_rctx->orthoMatrix.GetMatrix());
 
 		// get depth buffer
-		DepthMetaData dmd;
-		m_depthGen->GetMetaData(dmd);
-		const XnDepthPixel* dp = dmd.Data();
+		const XuRawDepthPixel* dp = m_depthProvider->getData();
 
 		// get image buffer
-		ImageMetaData imd;
-		m_imageGen->GetMetaData(imd);
-		const XnRGB24Pixel* ip = imd.RGB24Data();
+		const XuRawColorPixel* ip = m_imageProvider->getData();
 
 		// get working buffers
 		M3DVector3f* vp = m_vertexBuf;
 		M3DVector4f* cp = m_colorBuf;
-		XnUInt32 numPoints = getNumPoints();
+		DWORD numPoints = getNumPoints();
 
 		// setup henshin-related information
 		const float Z_SCALE = 10.0f;
-		XnUserID userID = 0;
-		const XnLabel* lp = NULL;
+		XuUserID userID = 0;
+		const XuRawUserIDPixel* up = NULL;
 		XV3 lightCenter, headCenter, headDirection;
-		getHenshinData(&userID, &lp, &lightCenter, &headCenter, &headDirection);
+		getHenshinData(&userID, &up, &lightCenter, &headCenter, &headDirection);
 		lightCenter.Z *= Z_SCALE;
 		float lightRadius =
 			(m_kkhStatus->getGrowth() + currentIntensity * 0.5f) *
@@ -207,7 +202,7 @@ void WorldRenderer::drawBackground()
 		bool isCalibration = (m_henshinDetector->getStage() == HenshinDetector::STAGE_CALIBRATION);
 		float calibrationGlowIntensity = sinf(m_henshinDetector->getCalibrationProgress() * float(M3D_PI)) * 0.4f;
 
-		bool isTracked = userID && lp;
+		bool isTracked = userID && up;
 		bool isLightened = isTracked && lightRadius > 0.0f;
 
 		float hairScale = m_henshinDetector->getHenshinProgress() * 0.6f;
@@ -221,9 +216,9 @@ void WorldRenderer::drawBackground()
 		hairFrame.SetUpVector(XV3toM3D(hairDirection));
 		hairFrame.Normalize();
 
-		XnUInt32 ix = 0, iy = 0;
+		DWORD ix = 0, iy = 0;
 		float nearZ = PERSPECTIVE_Z_MIN + m_depthAdjustment;
-		for (XnUInt32 i = 0; i < numPoints; i++, dp++, ip++, vp++, cp++, lp++, ix++) {
+		for (DWORD i = 0; i < numPoints; i++, dp++, ip++, vp++, cp++, up++, ix++) {
 
 			if (ix == m_width) {
 				ix = 0;
@@ -232,13 +227,16 @@ void WorldRenderer::drawBackground()
 
 			// (*vp)[0] (x) is already set
 			// (*vp)[1] (y) is already set
-			(*vp)[2] = (*dp) ? getNormalizedDepth(*dp, nearZ, PERSPECTIVE_Z_MAX) : Z_INFINITE;
+			XuDepthPixel d = GetDepthFromRawPixel(*dp);
+			(*vp)[2] = d ? getNormalizedDepth(d, nearZ, PERSPECTIVE_Z_MAX) : Z_INFINITE;
 
 			setRGB(cp, *ip);
-
+			
+			XuUserID u = GetUserIDFromRawPixel(*up);
 			if (isTracked) {
 				// aura and hair
-				if (iy > 0 && *lp  == userID && (*(lp-m_width) != userID || *(lp-1) != userID || *(lp+1) != userID)) {
+				if (iy > 0 &&  u == userID && (GetUserIDFromRawPixel(*(up-m_width)) != userID ||
+						GetUserIDFromRawPixel(*(up-1)) != userID || GetUserIDFromRawPixel(*(up+1)) != userID)) {
 					M3DVector4f* auraSourcePtr = cp;
 
 					// hair
@@ -282,7 +280,7 @@ void WorldRenderer::drawBackground()
 			
 			if (isCalibration) {
 				// glow for calibration
-				if (*lp > 0) { // TODO: check user ID if it is under calibration
+				if (u == userID) {
 					(*cp)[0] = interpolate((*cp)[0], 0.9f, calibrationGlowIntensity);
 					(*cp)[1] = interpolate((*cp)[1], 1.0f, calibrationGlowIntensity);
 					(*cp)[2] = interpolate((*cp)[2], 0.4f, calibrationGlowIntensity);
@@ -294,7 +292,7 @@ void WorldRenderer::drawBackground()
 					XV3 v(*vp);
 					v.Z *= Z_SCALE;
 					float d = lightRadius * (halationFactor / lightCenter.distance2(v) -  1.5f);
-					float intensity = ((*lp == userID) ? 0.1f : 0.2f);
+					float intensity = ((*up == userID) ? 0.1f : 0.2f);
 					d *= intensity;
 					float a = 1.0f + d;
 
@@ -311,7 +309,7 @@ void WorldRenderer::drawBackground()
 						float r = (1.0f - sqrt(flatDistance2) / lightCoreRadius) * (1.0f + 0.8f * lightRadius);
 						float r2 = r * r;
 						float a = (r <= 1.0f) ? (2 * r2 - r2 * r2) : 1.0f;
-						float intensity = (*lp == userID) ? 0.8f : 1.0f;
+						float intensity = (*up == userID) ? 0.8f : 1.0f;
 						a *= intensity;
 						(*cp)[0] = interpolate((*cp)[0], 0.9f, a);
 						(*cp)[1] = interpolate((*cp)[1], 1.0f, a);
@@ -338,7 +336,7 @@ void WorldRenderer::drawModeText()
 
 		XV3 p(0.62f, -0.95f, 0.0f), s(0.0005f, 0.001f, 1.0f);
 		float color[4] = { 1.0f, 0.0f, 0.0f, 0.7f };
-		renderStrokeText("Party Mode", p, s, 2.0f, color);
+		renderStrokeText(m_rctx, "Party Mode", p, s, 2.0f, color);
 	}
 }
 
