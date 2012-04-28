@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="MSSDK_Debug|Win32">
+      <Configuration>MSSDK_Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MSSDK_Release|Win32">
+      <Configuration>MSSDK_Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="OpenNI_Debug|Win32">
+      <Configuration>OpenNI_Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="OpenNI_Release|Win32">
+      <Configuration>OpenNI_Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4DEB2FA0-853D-4C7D-A974-519022A3E8CD}</ProjectGuid>
+    <RootNamespace>kinectkamehameha</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='OpenNI_Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MSSDK_Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='OpenNI_Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MSSDK_Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='OpenNI_Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='MSSDK_Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='OpenNI_Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='MSSDK_Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='OpenNI_Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MSSDK_Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='OpenNI_Debug|Win32'">$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MSSDK_Debug|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='OpenNI_Debug|Win32'">true</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MSSDK_Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='OpenNI_Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MSSDK_Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='OpenNI_Release|Win32'">$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MSSDK_Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='OpenNI_Release|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MSSDK_Release|Win32'">false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='OpenNI_Debug|Win32'">
+    <CustomBuildStep>
+      <Command>copy ..\contrib\opencv\bin\opencv_core231d.dll "$(OutDir)"</Command>
+      <Outputs>$(OutDir)opencv_core231d.dll;%(Outputs)</Outputs>
+    </CustomBuildStep>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(OPEN_NI_INCLUDE);..\contrib\freeglut\include;..\contrib\gltools\include;..\contrib\opencv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>XU_OPENNI;WIN32;_DEBUG;_CONSOLE;FREEGLUT_LIB_PRAGMAS=0;FREEGLUT_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>gltoolsd.lib;freeglut_static_d.lib;opencv_core231d.lib;OpenNI.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
+      <AdditionalLibraryDirectories>$(OPEN_NI_LIB);..\contrib\gltools\lib;..\contrib\freeglut\lib;..\contrib\opencv\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MSSDK_Debug|Win32'">
+    <CustomBuildStep>
+      <Command>copy ..\contrib\opencv\bin\opencv_core231d.dll "$(OutDir)"</Command>
+      <Outputs>$(OutDir)opencv_core231d.dll;%(Outputs)</Outputs>
+    </CustomBuildStep>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(KINECTSDK10_DIR)\inc;..\contrib\freeglut\include;..\contrib\gltools\include;..\contrib\opencv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>XU_KINECTSDK;WIN32;_DEBUG;_CONSOLE;FREEGLUT_LIB_PRAGMAS=0;FREEGLUT_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>gltoolsd.lib;freeglut_static_d.lib;opencv_core231d.lib;Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
+      <AdditionalLibraryDirectories>$(KINECTSDK10_DIR)\lib\x86;..\contrib\gltools\lib;..\contrib\freeglut\lib;..\contrib\opencv\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='OpenNI_Release|Win32'">
+    <CustomBuildStep>
+      <Command>copy ..\contrib\opencv\bin\opencv_core231.dll "$(OutDir)"</Command>
+      <Outputs>$(OutDir)opencv_core231.dll;%(Outputs)</Outputs>
+    </CustomBuildStep>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(OPEN_NI_INCLUDE);..\contrib\freeglut\include;..\contrib\gltools\include;..\contrib\opencv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>XU_OPENNI;WIN32;NDEBUG;_CONSOLE;FREEGLUT_LIB_PRAGMAS=0;FREEGLUT_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>gltools.lib;freeglut_static.lib;opencv_core231.lib;OpenNI.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OPEN_NI_LIB);..\contrib\gltools\lib;..\contrib\freeglut\lib;..\contrib\opencv\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MSSDK_Release|Win32'">
+    <CustomBuildStep>
+      <Command>copy ..\contrib\opencv\bin\opencv_core231.dll "$(OutDir)"</Command>
+      <Outputs>$(OutDir)opencv_core231.dll;%(Outputs)</Outputs>
+    </CustomBuildStep>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(KINECTSDK10_DIR)\inc;..\contrib\freeglut\include;..\contrib\gltools\include;..\contrib\opencv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>XU_KINECTSDK;WIN32;NDEBUG;_CONSOLE;FREEGLUT_LIB_PRAGMAS=0;FREEGLUT_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>gltools.lib;freeglut_static.lib;opencv_core231.lib;Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(KINECTSDK10_DIR)\lib\x86;..\contrib\gltools\lib;..\contrib\freeglut\lib;..\contrib\opencv\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\AbstractOpenGLRenderer.cpp" />
+    <ClCompile Include="..\src\AbstractPoseDetector.cpp" />
+    <ClCompile Include="..\src\AbstractSensorDataProvider.cpp" />
+    <ClCompile Include="..\src\common.cpp" />
+    <ClCompile Include="..\src\Configuration.cpp" />
+    <ClCompile Include="..\src\DepthProvider.cpp" />
+    <ClCompile Include="..\src\HenshinDetector.cpp" />
+    <ClCompile Include="..\src\ImageProvider.cpp" />
+    <ClCompile Include="..\src\KamehamehaDetector.cpp" />
+    <ClCompile Include="..\src\KamehamehaRenderer.cpp" />
+    <ClCompile Include="..\src\KamehamehaStatus.cpp" />
+    <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="..\src\nui_error.cpp" />
+    <ClCompile Include="..\src\RenderingContext.cpp" />
+    <ClCompile Include="..\src\SensorManager.cpp" />
+    <ClCompile Include="..\src\SkeletonRenderer.cpp" />
+    <ClCompile Include="..\src\TimeTicker.cpp" />
+    <ClCompile Include="..\src\TrigonometricTable.cpp" />
+    <ClCompile Include="..\src\UserDetector.cpp" />
+    <ClCompile Include="..\src\UserProvider.cpp" />
+    <ClCompile Include="..\src\util.cpp" />
+    <ClCompile Include="..\src\WorldRenderer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\AbstractImageStreamProvider.h" />
+    <ClInclude Include="..\src\AbstractOpenGLRenderer.h" />
+    <ClInclude Include="..\src\AbstractPoseDetector.h" />
+    <ClInclude Include="..\src\AbstractSensorDataProvider.h" />
+    <ClInclude Include="..\src\common.h" />
+    <ClInclude Include="..\src\config.h" />
+    <ClInclude Include="..\src\Configurable.h" />
+    <ClInclude Include="..\src\Configuration.h" />
+    <ClInclude Include="..\src\DepthProvider.h" />
+    <ClInclude Include="..\src\FrameRateCounter.h" />
+    <ClInclude Include="..\src\HenshinDetector.h" />
+    <ClInclude Include="..\src\Holder.h" />
+    <ClInclude Include="..\src\ImageProvider.h" />
+    <ClInclude Include="..\src\IUserListener.h" />
+    <ClInclude Include="..\src\joint.h" />
+    <ClInclude Include="..\src\KamehamehaDetector.h" />
+    <ClInclude Include="..\src\KamehamehaRenderer.h" />
+    <ClInclude Include="..\src\KamehamehaStatus.h" />
+    <ClInclude Include="..\src\math.h" />
+    <ClInclude Include="..\src\nui_error.h" />
+    <ClInclude Include="..\src\RenderingContext.h" />
+    <ClInclude Include="..\src\SensorManager.h" />
+    <ClInclude Include="..\src\SkeletonRenderer.h" />
+    <ClInclude Include="..\src\TimeTicker.h" />
+    <ClInclude Include="..\src\TrigonometricTable.h" />
+    <ClInclude Include="..\src\UserDetector.h" />
+    <ClInclude Include="..\src\UserProvider.h" />
+    <ClInclude Include="..\src\util.h" />
+    <ClInclude Include="..\src\vec.h" />
+    <ClInclude Include="..\src\WorldRenderer.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

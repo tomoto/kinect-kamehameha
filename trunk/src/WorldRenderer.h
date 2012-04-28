@@ -37,6 +37,9 @@
 #include "HenshinDetector.h"
 #include "KamehamehaStatus.h"
 #include "TimeTicker.h"
+#include "ImageProvider.h"
+#include "DepthProvider.h"
+#include <opencv2/core/core.hpp>
 
 class WorldRenderer : public AbstractOpenGLRenderer
 {
@@ -57,16 +60,16 @@ private:
 	};
 
 protected:
-	DepthGenerator* m_depthGen;
-	ImageGenerator* m_imageGen;
+	DepthProvider* m_depthProvider;
+	ImageProvider* m_imageProvider;
 	
 	HenshinDetector* m_henshinDetector;
 	KamehamehaStatus* m_kkhStatus;
 
 	Batch m_batch; 
 
-	XnUInt32 m_width;
-	XnUInt32 m_height;
+	DWORD m_width;
+	DWORD m_height;
 	M3DVector3f* m_vertexBuf;
 	M3DVector4f* m_colorBuf;
 
@@ -75,7 +78,7 @@ protected:
 	cv::RNG m_rng;
 
 public:
-	WorldRenderer(RenderingContext* rctx, DepthGenerator* depthGen, ImageGenerator* imageGen,
+	WorldRenderer(RenderingContext* rctx, DepthProvider* depthProvider, ImageProvider* imageGen,
 		HenshinDetector* henshinDetector, KamehamehaStatus* kkhStatus);
 	virtual ~WorldRenderer();
 	
@@ -83,9 +86,9 @@ public:
 
 	void addDepthAdjustment(float value) { m_depthAdjustment += value; }
 private:
-	XnUInt32 getNumPoints() { return m_width * m_height; }
+	DWORD getNumPoints() { return m_width * m_height; }
 
-	void getHenshinData(XnUserID* pUserID, const XnLabel** ppLabel, XV3* pLightCenter, XV3* pHeadCenter, XV3* pHeadDirection);
+	void getHenshinData(XuUserID* pUserID, const XuRawUserIDPixel** ppLabel, XV3* pLightCenter, XV3* pHeadCenter, XV3* pHeadDirection);
 
 	void drawBackground();
 	void drawModeText();

@@ -28,11 +28,17 @@
 //@COPYRIGHT@//
 
 #include "common.h"
-#include "config.h"
 #include "util.h"
+#include "Holder.h"
 
 #include "Configuration.h"
+
 #include "RenderingContext.h"
+
+#include "SensorManager.h"
+#include "ImageProvider.h"
+#include "DepthProvider.h"
+#include "UserProvider.h"
 
 #include "WorldRenderer.h"
 #include "KamehamehaRenderer.h"
@@ -45,46 +51,34 @@
 #include <GLShaderManager.h>
 #include <GLFrustum.h>
 
-#define APP_VERSION "0.1e"
+#ifdef XU_KINECTSDK
+#define APP_VERSION_FOR "Kinect SDK"
+#else // XU_OPENNI
+#define APP_VERSION_FOR "OpenNI"
+#endif
 
-// OpenNI objects
-Context g_context;
-DepthGenerator g_depthGen;
-ImageGenerator g_imageGen;
-UserGenerator g_userGen;
+#define APP_VERSION_NUMBER "1.0a"
+#define APP_VERSION APP_VERSION_NUMBER " (" APP_VERSION_FOR ")"
+
+// Sensor objects
+static Holder<SensorManager> s_sensorMan;
 
 // GL objects
-GLShaderManager g_shaderMan;
+GLShaderManager s_shaderMan;
 
 // App objects
-RenderingContext g_renderingCtx;
-KamehamehaStatus g_kkhStatus;
+static RenderingContext* s_renderingContext;
+static KamehamehaStatus s_kkhStatus;
 
-WorldRenderer* g_worldRenderer;
-KamehamehaRenderer* g_kkhRenderer;
-SkeletonRenderer* g_skeletonRenderer;
+static WorldRenderer* s_worldRenderer;
+static KamehamehaRenderer* s_kkhRenderer;
+static SkeletonRenderer* s_skeletonRenderer;
 
-UserDetector* g_userDetector;
-HenshinDetector* g_henshinDetector;
-KamehamehaDetector* g_kkhDetector;
+static UserDetector* s_userDetector;
+static HenshinDetector* s_henshinDetector;
+static KamehamehaDetector* s_kkhDetector;
 
 FrameRateCounter g_frameRateCounter;
-
-static void toggleFullScreenMode()
-{
-	static int x = -1, y, w, h;
-	if (x < 0) {
-		x = glutGet(GLUT_WINDOW_X);
-		y = glutGet(GLUT_WINDOW_Y);
-		w = glutGet(GLUT_WINDOW_WIDTH);
-		h = glutGet(GLUT_WINDOW_HEIGHT);
-		glutFullScreen();
-	} else {
-		glutPositionWindow(x, y);
-		glutReshapeWindow(w, h);
-		x = -1;
-	}
-}
 
 static void onGlutKeyboard(unsigned char key, int x, int y)
 {
@@ -94,83 +88,62 @@ static void onGlutKeyboard(unsigned char key, int x, int y)
 		case 13:
 			toggleFullScreenMode();
 		case 'q':
-			g_worldRenderer->addDepthAdjustment(5);
+			s_worldRenderer->addDepthAdjustment(5);
 			break;
 		case 'a':
-			g_worldRenderer->addDepthAdjustment(-5);
+			s_worldRenderer->addDepthAdjustment(-5);
 			break;
 		case 's':
-			g_skeletonRenderer->toggleEnabled();
+			s_skeletonRenderer->toggleEnabled();
 			break;
 		case 'f':
 			g_frameRateCounter.toggleEnabled();
 			break;
 		case 'm':
-			g_renderingCtx.mirror();
+			s_renderingContext->mirror();
 			break;
 		case 'p':
 			Configuration::getInstance()->changePartyMode();
 			break;
 		case 'r':
-			g_henshinDetector->reset();
+			s_henshinDetector->reset();
 			break;
 	}
 }
 
-static void adjustViewport()
-{
-	float scaleX, scaleY;
-	int winWidth = glutGet(GLUT_WINDOW_WIDTH);
-	int winHeight = glutGet(GLUT_WINDOW_HEIGHT);
-	getAspectRatioAdjustment(XY_ASPECT, float(winWidth) / float(winHeight), &scaleX, &scaleY);
-	GLsizei vpWidth = GLsizei(winWidth * scaleX);
-	GLsizei vpHeight = GLsizei(winHeight * scaleY);
-	glViewport((winWidth-vpWidth)/2, (winHeight-vpHeight)/2, vpWidth, vpHeight);
-}
-
 static void onGlutDisplay()
 {
-	g_frameRateCounter.update();
+	if (!s_sensorMan->waitAllForNextFrameAndLock()) return;
 
-	g_context.WaitAndUpdateAll();
+	g_frameRateCounter.update();
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	adjustViewport();
 
-	g_henshinDetector->detect();
-	g_kkhDetector->detect();
+	s_userDetector->detect();
+	s_henshinDetector->detect();
+	s_kkhDetector->detect();
 
-	g_worldRenderer->draw();
-	g_kkhRenderer->draw();
-	g_skeletonRenderer->draw();
+	s_worldRenderer->draw();
+	s_kkhRenderer->draw();
+	s_skeletonRenderer->draw();
 
 	glutSwapBuffers();
+
+	s_sensorMan->unlock();
 }
+
 static void onGlutIdle()
 {
 	glutPostRedisplay();
 }
 
-static void initXN()
+static void initSensor()
 {
-	CALL_XN( g_context.InitFromXmlFile(getResourceFile("config", "OpenNIConfig.xml").c_str()) );
-	CALL_XN( g_context.SetGlobalMirror(TRUE) );
-	CALL_XN( g_context.FindExistingNode(XN_NODE_TYPE_IMAGE, g_imageGen) );
-	CALL_XN( g_context.FindExistingNode(XN_NODE_TYPE_DEPTH, g_depthGen) );
-	CALL_XN( g_depthGen.GetAlternativeViewPointCap().SetViewPoint(g_imageGen) );
-	CALL_XN( g_context.FindExistingNode(XN_NODE_TYPE_USER, g_userGen) );
-	CALL_XN( g_userGen.Create(g_context) );
-	g_userGen.GetSkeletonCap().SetSkeletonProfile(XN_SKEL_PROFILE_ALL);
-
-	ImageMetaData imageMD;
-	g_imageGen.GetMetaData(imageMD);
-	CHECK_ERROR(imageMD.PixelFormat() == XN_PIXEL_FORMAT_RGB24, "This camera is not supported.");
-
-	g_userDetector = new UserDetector(&g_userGen);
-	g_henshinDetector = new HenshinDetector(g_userDetector);
-
-	CALL_XN( g_context.StartGeneratingAll() );
+	s_sensorMan = new SensorManager();
+	s_userDetector = new UserDetector(s_sensorMan->getUserProvider());
+	s_henshinDetector = new HenshinDetector(s_userDetector);
 }
 
 static void sorryThisProgramCannotRunBecause(const char* reason)
@@ -213,7 +186,7 @@ static void initGL(int* pArgc, char* argv[])
 	glutDisplayFunc(onGlutDisplay);
 	glutIdleFunc(onGlutIdle);
 
-	g_shaderMan.InitializeStockShaders();
+	s_shaderMan.InitializeStockShaders();
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -227,31 +200,34 @@ static void initGL(int* pArgc, char* argv[])
 
 static void initProjection()
 {
-	XnFieldOfView fov;
-	g_depthGen.GetFieldOfView(fov);
+	float hfov, vfov;
+	s_sensorMan->getDepthProvider()->getFOV(&hfov, &vfov);
 
 	GLFrustum frustum;
-	float verticalFOVInDegree = float(m3dRadToDeg(fov.fVFOV));
-	float aspect = float(tan(fov.fHFOV/2)/tan(fov.fVFOV/2));
+	float verticalFOVInDegree = float(m3dRadToDeg(vfov));
+	float aspect = float(tan(hfov/2)/tan(vfov/2));
 	frustum.SetPerspective(verticalFOVInDegree, aspect, PERSPECTIVE_Z_MIN, PERSPECTIVE_Z_MAX);
 
-	g_renderingCtx.projectionMatrix.LoadMatrix(frustum.GetProjectionMatrix());
-	g_renderingCtx.projectionMatrix.Scale(-1, 1, -1);
+	s_renderingContext->projectionMatrix.LoadMatrix(frustum.GetProjectionMatrix());
+	s_renderingContext->projectionMatrix.Scale(-1, 1, -1);
 
-	g_renderingCtx.orthoMatrix.Scale(1/XY_ASPECT, 1, 1);
+	s_renderingContext->orthoMatrix.Scale(1/XY_ASPECT, 1, 1);
 }
 
 static void initRenderers()
 {
-	g_renderingCtx.shaderMan = &g_shaderMan;
+	s_renderingContext = new RenderingContext(&s_shaderMan);
 
 	LOG( initProjection() );
 
-	LOG( g_kkhRenderer = new KamehamehaRenderer(&g_renderingCtx, &g_kkhStatus) );
-	LOG( g_worldRenderer = new WorldRenderer(&g_renderingCtx, &g_depthGen, &g_imageGen, g_henshinDetector, &g_kkhStatus) );
-	LOG( g_skeletonRenderer = new SkeletonRenderer(&g_renderingCtx, &g_depthGen, g_userDetector, g_henshinDetector) );
-	LOG( g_kkhDetector = new KamehamehaDetector(g_henshinDetector, &g_kkhStatus, g_kkhRenderer) );
-	LOG( g_renderingCtx.mirror() ); // flip the screen by default
+	DepthProvider* depthProvider = s_sensorMan->getDepthProvider();
+	ImageProvider* imageProvider = s_sensorMan->getImageProvider();
+
+	LOG( s_kkhRenderer = new KamehamehaRenderer(s_renderingContext, &s_kkhStatus) );
+	LOG( s_worldRenderer = new WorldRenderer(s_renderingContext, depthProvider, imageProvider, s_henshinDetector, &s_kkhStatus) );
+	LOG( s_skeletonRenderer = new SkeletonRenderer(s_renderingContext, depthProvider, s_userDetector, s_henshinDetector) );
+	LOG( s_kkhDetector = new KamehamehaDetector(s_henshinDetector, &s_kkhStatus, s_kkhRenderer) );
+	LOG( s_renderingContext->mirror() ); // flip the screen by default
 }
 
 static void displayWelcomeMessage()
@@ -276,7 +252,7 @@ static void displayWelcomeMessage()
 		//puts("[q][a] -- Adjust the depth of 3D virtual objects.");
 		puts("[f]    -- Output framerate to the console.");
 		puts("[m]    -- Mirror the screen.");
-		puts("[r]    -- Reset the player. Use this to switch the player.");
+		puts("[r]    -- Switch the player.");
 		puts("[p]    -- Toggle \"Party Mode\" to make it easy to blast!");
 		puts("[s]    -- Toggle skeleton (for troubleshooting).");
 		puts("");
@@ -293,7 +269,7 @@ void main(int argc, char* argv[])
 	displayWelcomeMessage();
 
 	initGL(&argc, argv);
-	initXN();
+	initSensor();
 	initRenderers();
 	glutShowWindow();
 	// toggleFullScreenMode(); // remove comment to run in the full-screen mode by default
