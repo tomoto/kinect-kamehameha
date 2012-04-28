@@ -75,10 +75,8 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='OpenNI_Debug|Win32'">
     <CustomBuildStep>
-      <Command>copy ..\contrib\opencv\bin\opencv_core231d.dll "$(OutDir)"
-copy ..\contrib\opencv\bin\opencv_highgui231d.dll "$(OutDir)"
-</Command>
-      <Outputs>$(OutDir)opencv_core231d.dll;$(OutDir)opencv_highgui231d.dll;%(Outputs)</Outputs>
+      <Command>copy ..\contrib\opencv\bin\opencv_core231d.dll "$(OutDir)"</Command>
+      <Outputs>$(OutDir)opencv_core231d.dll;%(Outputs)</Outputs>
     </CustomBuildStep>
     <ClCompile>
       <Optimization>Disabled</Optimization>
@@ -93,7 +91,7 @@ copy ..\contrib\opencv\bin\opencv_highgui231d.dll "$(OutDir)"
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>gltoolsd.lib;freeglut_static_d.lib;opencv_highgui231d.lib;opencv_core231d.lib;OpenNI.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>gltoolsd.lib;freeglut_static_d.lib;opencv_core231d.lib;OpenNI.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(OPEN_NI_LIB);..\contrib\gltools\lib;..\contrib\freeglut\lib;..\contrib\opencv\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -104,10 +102,8 @@ copy ..\contrib\opencv\bin\opencv_highgui231d.dll "$(OutDir)"
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MSSDK_Debug|Win32'">
     <CustomBuildStep>
-      <Command>copy ..\contrib\opencv\bin\opencv_core231d.dll "$(OutDir)"
-copy ..\contrib\opencv\bin\opencv_highgui231d.dll "$(OutDir)"
-</Command>
-      <Outputs>$(OutDir)opencv_core231d.dll;$(OutDir)opencv_highgui231d.dll;%(Outputs)</Outputs>
+      <Command>copy ..\contrib\opencv\bin\opencv_core231d.dll "$(OutDir)"</Command>
+      <Outputs>$(OutDir)opencv_core231d.dll;%(Outputs)</Outputs>
     </CustomBuildStep>
     <ClCompile>
       <Optimization>Disabled</Optimization>
@@ -122,7 +118,7 @@ copy ..\contrib\opencv\bin\opencv_highgui231d.dll "$(OutDir)"
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>gltoolsd.lib;freeglut_static_d.lib;opencv_highgui231d.lib;opencv_core231d.lib;Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>gltoolsd.lib;freeglut_static_d.lib;opencv_core231d.lib;Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(KINECTSDK10_DIR)\lib\x86;..\contrib\gltools\lib;..\contrib\freeglut\lib;..\contrib\opencv\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -133,10 +129,8 @@ copy ..\contrib\opencv\bin\opencv_highgui231d.dll "$(OutDir)"
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='OpenNI_Release|Win32'">
     <CustomBuildStep>
-      <Command>copy ..\contrib\opencv\bin\opencv_core231.dll "$(OutDir)"
-copy ..\contrib\opencv\bin\opencv_highgui231.dll "$(OutDir)"
-</Command>
-      <Outputs>$(OutDir)opencv_core231.dll;$(OutDir)opencv_highgui231.dll;%(Outputs)</Outputs>
+      <Command>copy ..\contrib\opencv\bin\opencv_core231.dll "$(OutDir)"</Command>
+      <Outputs>$(OutDir)opencv_core231.dll;%(Outputs)</Outputs>
     </CustomBuildStep>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
@@ -151,7 +145,7 @@ copy ..\contrib\opencv\bin\opencv_highgui231.dll "$(OutDir)"
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>gltools.lib;freeglut_static.lib;opencv_highgui231.lib;opencv_core231.lib;OpenNI.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>gltools.lib;freeglut_static.lib;opencv_core231.lib;OpenNI.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OPEN_NI_LIB);..\contrib\gltools\lib;..\contrib\freeglut\lib;..\contrib\opencv\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -163,10 +157,8 @@ copy ..\contrib\opencv\bin\opencv_highgui231.dll "$(OutDir)"
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MSSDK_Release|Win32'">
     <CustomBuildStep>
-      <Command>copy ..\contrib\opencv\bin\opencv_core231.dll "$(OutDir)"
-copy ..\contrib\opencv\bin\opencv_highgui231.dll "$(OutDir)"
-</Command>
-      <Outputs>$(OutDir)opencv_core231.dll;$(OutDir)opencv_highgui231.dll;%(Outputs)</Outputs>
+      <Command>copy ..\contrib\opencv\bin\opencv_core231.dll "$(OutDir)"</Command>
+      <Outputs>$(OutDir)opencv_core231.dll;%(Outputs)</Outputs>
     </CustomBuildStep>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
@@ -181,7 +173,7 @@ copy ..\contrib\opencv\bin\opencv_highgui231.dll "$(OutDir)"
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>gltools.lib;freeglut_static.lib;opencv_highgui231.lib;opencv_core231.lib;Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>gltools.lib;freeglut_static.lib;opencv_core231.lib;Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(KINECTSDK10_DIR)\lib\x86;..\contrib\gltools\lib;..\contrib\freeglut\lib;..\contrib\opencv\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>

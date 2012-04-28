@@ -52,6 +52,7 @@ static void loadMipmappedTexImage2D(GLenum target, GLint level, GLint internalfo
 	}
 }
 
+#if 0
 GLuint readAlphaTexture(const char* file)
 {
 	// Specify 0 to read the file as grayscale image
@@ -77,6 +78,7 @@ GLuint readAlphaTexture(const char* file)
 
 	return textureID;
 }
+#endif
 
 float getPointSize()
 {
