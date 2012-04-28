@@ -32,10 +32,10 @@
 
 #include "common.h"
 #include "AbstractPoseDetector.h"
-#include "UserListener.h"
+#include "IUserListener.h"
 #include "UserDetector.h"
 
-class HenshinDetector : public AbstractPoseDetector, UserListener
+class HenshinDetector : public AbstractPoseDetector, IUserListener
 {
 public:
 	enum Stage {
@@ -65,12 +65,8 @@ public:
 	// user listener methods
 	//
 
-	virtual void onNewUser(XnUserID userID);
-	virtual void onLostUser(XnUserID userID);
-	virtual void onCalibrationStart(XnUserID userID);
-	virtual void onCalibrationEnd(XnUserID userID, bool isSuccess);
-	virtual void onPoseStart(XnUserID userID, const XnChar* pose);
-	virtual void onPoseEnd(XnUserID userID, const XnChar* pose);
+	virtual void onNewUser(XuUserID userID);
+	virtual void onLostUser(XuUserID userID);
 
 private:
 	void transitToHuman();

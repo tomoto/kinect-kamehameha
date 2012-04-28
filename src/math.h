@@ -34,6 +34,7 @@
 
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <algorithm>
 
 inline float interpolate(float x1, float x2, float alpha = 0.5f)
 {
@@ -50,9 +51,9 @@ inline float square(float f)
 	return f * f;
 }
 
-inline float cramp(float n, float min, float max)
+inline float cramp(float f, float min, float max)
 {
-	return std::min(std::max(n, min), max);
+	return std::min(max, std::max(min, f));
 }
 
 #endif

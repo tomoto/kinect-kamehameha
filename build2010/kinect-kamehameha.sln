@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C++ Express 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kinect-kamehameha", "kinect-kamehameha.vcxproj", "{4DEB2FA0-853D-4C7D-A974-519022A3E8CD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		OpenNI_Debug|Win32 = OpenNI_Debug|Win32
+		MSSDK_Debug|Win32 = MSSDK_Debug|Win32
+		MSSDK_Release|Win32 = MSSDK_Release|Win32
+		OpenNI_Release|Win32 = OpenNI_Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4DEB2FA0-853D-4C7D-A974-519022A3E8CD}.MSSDK_Debug|Win32.ActiveCfg = MSSDK_Debug|Win32
+		{4DEB2FA0-853D-4C7D-A974-519022A3E8CD}.MSSDK_Debug|Win32.Build.0 = MSSDK_Debug|Win32
+		{4DEB2FA0-853D-4C7D-A974-519022A3E8CD}.MSSDK_Release|Win32.ActiveCfg = MSSDK_Release|Win32
+		{4DEB2FA0-853D-4C7D-A974-519022A3E8CD}.MSSDK_Release|Win32.Build.0 = MSSDK_Release|Win32
+		{4DEB2FA0-853D-4C7D-A974-519022A3E8CD}.OpenNI_Debug|Win32.ActiveCfg = OpenNI_Debug|Win32
+		{4DEB2FA0-853D-4C7D-A974-519022A3E8CD}.OpenNI_Debug|Win32.Build.0 = OpenNI_Debug|Win32
+		{4DEB2FA0-853D-4C7D-A974-519022A3E8CD}.OpenNI_Release|Win32.ActiveCfg = OpenNI_Release|Win32
+		{4DEB2FA0-853D-4C7D-A974-519022A3E8CD}.OpenNI_Release|Win32.Build.0 = OpenNI_Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

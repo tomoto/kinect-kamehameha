@@ -46,7 +46,6 @@ void HenshinDetector::transitToHuman()
 	m_stage = STAGE_HUMAN;
 	m_henshinProgress = 0;
 	m_calibrationProgress = 0;
-	m_userDetector->stopTracking();
 }
 
 void HenshinDetector::transitToCalibration()
@@ -73,49 +72,31 @@ void HenshinDetector::onDetectPre(float dt)
 		}
 	} else if (m_stage == STAGE_CALIBRATION) {
 		m_calibrationProgress += dt;
+		if (m_calibrationProgress >= 1.0f && m_userDetector->isSkeletonTracked()) {
+			transitToHenshined();
+		} else if (m_calibrationProgress > 5.0f) {
+			m_userDetector->switchUser();
+		}
 	}
 }
 
 void HenshinDetector::reset()
 {
-	m_userDetector->stopTracking();
-	transitToHuman();
+	m_userDetector->switchUser();
 }
-
 
 //
 // listener methods
 //
 
-void HenshinDetector::onNewUser(XnUserID userID)
-{
-}
-
-void HenshinDetector::onLostUser(XnUserID userID)
-{
-	if (m_userDetector->isTrackedUserID(userID)) {
-		transitToHuman();
-	}
-}
-
-void HenshinDetector::onCalibrationStart(XnUserID userID)
+void HenshinDetector::onNewUser(XuUserID userID)
 {
 	transitToCalibration();
 }
 
-void HenshinDetector::onCalibrationEnd(XnUserID userID, bool isSuccess)
+void HenshinDetector::onLostUser(XuUserID userID)
 {
-	if (isSuccess) {
-		transitToHenshined();
-	} else {
+	if (m_userDetector->isTrackedUserID(userID)) {
 		transitToHuman();
 	}
-}
-
-void HenshinDetector::onPoseStart(XnUserID userID, const XnChar* pose)
-{
-}
-
-void HenshinDetector::onPoseEnd(XnUserID userID, const XnChar* pose)
-{
 }
