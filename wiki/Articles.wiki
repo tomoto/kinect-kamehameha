@@ -13,6 +13,8 @@
     * http://www.pcworld.com/article/218681/go_super_saiyan_dragonball_zstyle_with_kinect_hack.html
   * Tecca 
     * http://www.tecca.com/news/2010/12/06/9-awesome-videos-of-microsoft-kinect-innovations/
+  * Microsoft Channel 9
+    * http://channel9.msdn.com/coding4fun/kinect/Kinect-to-your-Kamehameha
 
 == Japanese ==
 
