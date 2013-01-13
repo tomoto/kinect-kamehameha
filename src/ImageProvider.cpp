@@ -31,16 +31,16 @@
 
 #ifdef XU_KINECTSDK
 
-ImageProvider::ImageProvider(INuiSensor* pSensor) : AbstractImageStreamProvider(pSensor)
+ImageProviderImpl::ImageProviderImpl(INuiSensor* pSensor) : AbstractImageStreamProvider(pSensor)
 {
 	CALL_SENSOR(m_pSensor->NuiImageStreamOpen(NUI_IMAGE_TYPE_COLOR, NUI_IMAGE_RESOLUTION_640x480, 0, 2, m_hNextFrameEvent, &m_hStream));
 }
 
-ImageProvider::~ImageProvider()
+ImageProviderImpl::~ImageProviderImpl()
 {
 }
 
-bool ImageProvider::waitForNextFrameAndLockImpl(DWORD timeout)
+bool ImageProviderImpl::waitForNextFrameAndLockImpl(DWORD timeout)
 {
 	if (SUCCEEDED(WaitForSingleObjectEx(m_hNextFrameEvent, timeout, TRUE))) {
 		CALL_SENSOR(m_pSensor->NuiImageStreamGetNextFrame(m_hStream, timeout, &m_frame));
@@ -52,16 +52,41 @@ bool ImageProvider::waitForNextFrameAndLockImpl(DWORD timeout)
 	}
 }
 
-void ImageProvider::unlockImpl()
+void ImageProviderImpl::unlockImpl()
 {
 	CALL_SENSOR(m_pSensor->NuiImageStreamReleaseFrame(m_hStream, &m_frame));
 	ResetEvent(m_hNextFrameEvent);
 	m_isLocked = false;
 }
 
+#elif XU_OPENNI2
+
+ImageProviderImpl::ImageProviderImpl(openni::Device* pDevice) : AbstractImageStreamProvider(pDevice)
+{
+	CALL_SENSOR( m_stream.create(*pDevice, openni::SensorType::SENSOR_COLOR ) );
+
+	openni::VideoMode vm;
+	vm.setFps(30);
+	vm.setResolution(640, 480);
+	vm.setPixelFormat(openni::PixelFormat::PIXEL_FORMAT_RGB888);
+	CALL_SENSOR( m_stream.setVideoMode(vm) );
+
+	CALL_SENSOR( m_stream.start() );
+}
+
+ImageProviderImpl::~ImageProviderImpl()
+{
+	m_stream.destroy();
+}
+
+bool ImageProviderImpl::waitForNextFrame() {
+	CALL_SENSOR( m_stream.readFrame(&m_frameRef) );
+	return true;
+}
+
 #else // XU_OPENNI
 
-ImageProvider::ImageProvider(Context* pContext) : AbstractImageStreamProvider(pContext)
+ImageProviderImpl::ImageProviderImpl(Context* pContext) : AbstractImageStreamProvider(pContext)
 {
 	CALL_SENSOR( pContext->FindExistingNode(XN_NODE_TYPE_IMAGE, m_imageGen) );
 
@@ -71,7 +96,7 @@ ImageProvider::ImageProvider(Context* pContext) : AbstractImageStreamProvider(pC
 	CHECK_ERROR(md.XRes() == 640 && md.YRes() == 480, "This camera's resolution is not supported.");
 }
 
-ImageProvider::~ImageProvider()
+ImageProviderImpl::~ImageProviderImpl()
 {
 }
 

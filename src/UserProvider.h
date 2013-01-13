@@ -34,22 +34,35 @@
 #include "AbstractSensorDataProvider.h"
 #include "joint.h"
 
+class UserProvider
+{
+public:
+	UserProvider() {}
+	virtual ~UserProvider() {}
+	virtual XuUserID findFirstTrackedUserID() = 0;
+	virtual XuUserID findTrackedUserIDNextTo(XuUserID userID) = 0;
+	virtual bool isUserPositionTracked(XuUserID userID) = 0;
+	virtual bool isUserSkeletonTracked(XuUserID userID) = 0;
+
+	virtual void getSkeletonJointInfo(XuUserID userID, XuSkeletonJointIndex jointIndex, XuSkeletonJointInfo* pJointInfo) = 0;
+};
+
 #ifdef XU_KINECTSDK
 
-class UserProvider : public AbstractSensorDataProvider {
+class UserProviderImpl : public UserProvider, public AbstractSensorDataProvider {
 private:
 	NUI_SKELETON_FRAME m_frame;
 
 public:
-	UserProvider(INuiSensor* pSensor);
-	~UserProvider();
+	UserProviderImpl(INuiSensor* pSensor);
+	~UserProviderImpl();
 
 	XuUserID findFirstTrackedUserID();
 	XuUserID findTrackedUserIDNextTo(XuUserID userID);
 	bool isUserPositionTracked(XuUserID userID);
 	bool isUserSkeletonTracked(XuUserID userID);
 	
-	const void getSkeletonJointInfo(XuUserID userID, XuSkeletonJointIndex jointIndex, XuSkeletonJointInfo* pJointInfo);
+	void getSkeletonJointInfo(XuUserID userID, XuSkeletonJointIndex jointIndex, XuSkeletonJointInfo* pJointInfo);
 
 protected:
 	virtual bool waitForNextFrameAndLockImpl(DWORD timeout);
@@ -58,15 +71,38 @@ protected:
 	const NUI_SKELETON_DATA* getSkeletonData(XuUserID userID);
 };
 
+#elif XU_OPENNI2
+
+#include "DepthProvider.h"
+
+class UserProviderImpl : public UserProvider, public AbstractSensorDataProvider {
+private:
+	DepthProviderImpl* m_depthProvider;
+
+public:
+	UserProviderImpl(DepthProviderImpl* depthProvider);
+	~UserProviderImpl();
+
+	nite::UserTracker* getUserTracker() { return m_depthProvider->getUserTracker(); }
+	nite::UserTrackerFrameRef* getUserTrackerFrame() { return m_depthProvider->getUserTrackerFrame(); }
+
+	XuUserID findFirstTrackedUserID();
+	XuUserID findTrackedUserIDNextTo(XuUserID userID);
+	bool isUserPositionTracked(XuUserID userID);
+	bool isUserSkeletonTracked(XuUserID userID);
+	
+	void getSkeletonJointInfo(XuUserID userID, XuSkeletonJointIndex jointIndex, XuSkeletonJointInfo* pJointInfo);
+};
+
 #else // XU_OPENNI
 
-class UserProvider : public AbstractSensorDataProvider {
+class UserProviderImpl : public UserProvider, public AbstractSensorDataProvider {
 private:
 	UserGenerator m_userGen;
 
 public:
-	UserProvider(Context* pContext);
-	~UserProvider();
+	UserProviderImpl(Context* pContext);
+	~UserProviderImpl();
 
 	UserGenerator* getGenerator() { return &m_userGen; }
 
@@ -75,7 +111,7 @@ public:
 	bool isUserPositionTracked(XuUserID userID);
 	bool isUserSkeletonTracked(XuUserID userID);
 	
-	const void getSkeletonJointInfo(XuUserID userID, XuSkeletonJointIndex jointIndex, XuSkeletonJointInfo* pJointInfo);
+	void getSkeletonJointInfo(XuUserID userID, XuSkeletonJointIndex jointIndex, XuSkeletonJointInfo* pJointInfo);
 };
 
 #endif
