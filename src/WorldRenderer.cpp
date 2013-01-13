@@ -49,15 +49,15 @@ WorldRenderer::WorldRenderer(RenderingContext* rctx, DepthProvider* depthProvide
 	m_height = Y_RES;
 
 	// allocate working buffers
-	DWORD numPoints = getNumPoints();
+	int numPoints = getNumPoints();
 	m_vertexBuf = new M3DVector3f[numPoints];
 	m_colorBuf = new M3DVector4f[numPoints];
 
 	// pre-set values on working buffers
 	M3DVector3f* vp = m_vertexBuf;
 	M3DVector4f* cp = m_colorBuf;
-	for (DWORD iy = 0; iy < m_height; iy++) {
-		for (DWORD ix = 0; ix < m_width; ix++) {
+	for (int iy = 0; iy < m_height; iy++) {
+		for (int ix = 0; ix < m_width; ix++) {
 			(*vp)[0] = normalizeX(float(ix));
 			(*vp)[1] = normalizeY(float(iy));
 			(*vp)[2] = 0;
@@ -91,7 +91,7 @@ void WorldRenderer::getHenshinData(XuUserID* pUserID, const XuRawUserIDPixel** p
 		ps[1].assign(userDetector->getSkeletonJointPosition(XU_SKEL_HEAD));
 		ps[2].assign(userDetector->getSkeletonJointPosition(XU_SKEL_NECK));
 		for (int i = 0; i < 3; i++) {
-			LONG x, y;
+			int x, y;
 			XuRawDepthPixel z;
 			m_depthProvider->transformSkeletonToDepthImage(ps[i], &x, &y, &z);
 			ps[i].assign(float(x), float(y), float(GetDepthFromRawPixel(z)));
@@ -140,7 +140,7 @@ void WorldRenderer::draw()
 
 inline float getHairLength(const XV3& v)
 {
-	float angle = acos(abs(v.X)/v.magnitude());
+	float angle = acos(fabs(v.X)/v.magnitude());
 	const float PI8 = float(M_PI/8);
 	switch (int(angle / PI8)) {
 		case 0:
@@ -181,7 +181,7 @@ void WorldRenderer::drawBackground()
 		// get working buffers
 		M3DVector3f* vp = m_vertexBuf;
 		M3DVector4f* cp = m_colorBuf;
-		DWORD numPoints = getNumPoints();
+		int numPoints = getNumPoints();
 
 		// setup henshin-related information
 		const float Z_SCALE = 10.0f;
@@ -216,9 +216,9 @@ void WorldRenderer::drawBackground()
 		hairFrame.SetUpVector(XV3toM3D(hairDirection));
 		hairFrame.Normalize();
 
-		DWORD ix = 0, iy = 0;
+		int ix = 0, iy = 0;
 		float nearZ = PERSPECTIVE_Z_MIN + m_depthAdjustment;
-		for (DWORD i = 0; i < numPoints; i++, dp++, ip++, vp++, cp++, up++, ix++) {
+		for (int i = 0; i < numPoints; i++, dp++, ip++, vp++, cp++, up++, ix++) {
 
 			if (ix == m_width) {
 				ix = 0;
@@ -243,7 +243,7 @@ void WorldRenderer::drawBackground()
 					// TODO: clean up!
 					XV3 p(*vp), flatCoords(*vp);
 					flatCoords.Z = headCenter.Z;
-					if (headCenter.distance2(flatCoords) < 0.06 && abs(headCenter.Z / p.Z - 1.0) < 0.01f && flatCoords.Y > headCenter.Y) {
+					if (headCenter.distance2(flatCoords) < 0.06 && fabs(headCenter.Z / p.Z - 1.0) < 0.01f && flatCoords.Y > headCenter.Y) {
 						XV3 v(flatCoords - headCenter);
 						v *= getHairLength(v) * hairScale;
 
