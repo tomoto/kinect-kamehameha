@@ -1,0 +1,34 @@
+kinect-kamehameha Change History
+
+* 4/28/2012 V1.0a
+
+  * Added Kinect SDK version
+  * Support complete player switching by [R] key
+  * Changed the way of flashing the body in the calibration phase
+    as Psi pose is no longer required
+
+* 9/18/2011 V0.1e
+
+  * Supported toggle full-screen by [ENTER]
+  * Maintains aspect ratio when resizing the window
+
+* 6/5/2011 V0.1d
+
+  * Mirror mode enabled by default
+  * Added player reset by [R] key for switching the player
+  * Experimental Genki-Dama support
+
+* 5/30/2011 V0.1c
+
+  * Added "Party Mode". Hit [P] key and enjoy easy blast!
+  * Added glow during calibration
+
+* 2/2/2011 V0.1b
+
+  * Fixed a bug that the hair was not rendered in the mirror mode.
+  * Adjusted the hair color to more gold.
+
+* 1/31/2011 V0.1a
+
+  * First release!
+
