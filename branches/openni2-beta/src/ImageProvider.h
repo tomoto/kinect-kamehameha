@@ -33,12 +33,20 @@
 #include "common.h"
 #include "AbstractImageStreamProvider.h"
 
+class ImageProvider {
+public:
+	ImageProvider() {}
+	virtual ~ImageProvider() {}
+
+	virtual const XuRawColorPixel* getData() const = 0;
+};
+
 #ifdef XU_KINECTSDK
 
-class ImageProvider : public AbstractImageStreamProvider {
+class ImageProviderImpl : public ImageProvider, public AbstractImageStreamProvider {
 public:
-	ImageProvider(INuiSensor* pSensor);
-	~ImageProvider();
+	ImageProviderImpl(INuiSensor* pSensor);
+	~ImageProviderImpl();
 
 	const XuRawColorPixel* getData() const { return (const XuRawColorPixel*) m_lockedRect.pBits; }
 
@@ -47,14 +55,25 @@ protected:
 	virtual void unlockImpl();
 };
 
+#elif XU_OPENNI2
+
+class ImageProviderImpl : public ImageProvider, public AbstractImageStreamProvider {
+public:
+	ImageProviderImpl(openni::Device* pDevice);
+	~ImageProviderImpl();
+
+	bool waitForNextFrame();
+	const XuRawColorPixel* getData() const { return (const XuRawColorPixel*) m_frameRef.getData(); }
+};
+
 #else // XU_OPENNI
 
-class ImageProvider : public AbstractImageStreamProvider {
+class ImageProviderImpl : public ImageProvider, public AbstractImageStreamProvider {
 private:
 	ImageGenerator m_imageGen;
 public:
-	ImageProvider(Context* context);
-	~ImageProvider();
+	ImageProviderImpl(Context* context);
+	~ImageProviderImpl();
 
 	ImageGenerator* getGenerator() { return &m_imageGen; }
 	const XuRawColorPixel* getData() const { return (const XuRawColorPixel*) m_imageGen.GetRGB24ImageMap(); }
