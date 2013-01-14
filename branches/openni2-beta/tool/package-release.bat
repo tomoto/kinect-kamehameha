@@ -33,5 +33,5 @@ copy ..\README_*.TXT %TARGET%
 copy ..\HISTORY_*.TXT %TARGET%
 xcopy %OPENNI2_REDIST%. %TARGET%\ /e
 xcopy %NITE2_REDIST%. %TARGET%\ /e
+del %TARGET%\*.pdb %TARGET%\OpenNI2\Drivers\*.pdb
 perl zip.pl %TARGET%
-
