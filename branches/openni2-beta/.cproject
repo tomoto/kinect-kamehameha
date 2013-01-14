@@ -68,7 +68,6 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="contrib/gltools/src/glew.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -141,7 +140,6 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="contrib/gltools/src/glew.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
