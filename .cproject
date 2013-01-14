@@ -29,7 +29,6 @@
 								<option id="gnu.cpp.compiler.option.include.paths.1261597750" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${NITE2_INCLUDE}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${OPENNI2_INCLUDE}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/contrib/opencv/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/contrib/gltools/include}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.2084482078" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -44,7 +43,6 @@
 								<option id="gnu.cpp.link.option.libs.1935555306" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="NiTE2"/>
 									<listOptionValue builtIn="false" value="OpenNI2"/>
-									<listOptionValue builtIn="false" value="opencv_core"/>
 									<listOptionValue builtIn="false" value="glut"/>
 									<listOptionValue builtIn="false" value="GLEW"/>
 									<listOptionValue builtIn="false" value="GLU"/>
@@ -55,7 +53,7 @@
 									<listOptionValue builtIn="false" value="&quot;${OPENNI2_REDIST}&quot;"/>
 								</option>
 								<option id="gnu.cpp.link.option.other.1986066144" name="Other options (-Xlinker [option])" superClass="gnu.cpp.link.option.other" valueType="stringList">
-									<listOptionValue builtIn="false" value="-rpath=.:/usr/local/lib"/>
+									<listOptionValue builtIn="false" value="-rpath=."/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1272257733" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -67,8 +65,6 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
-					<sourceEntries>
-					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
@@ -98,7 +94,6 @@
 								<option id="gnu.cpp.compiler.option.include.paths.1808490413" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${NITE2_INCLUDE}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${OPENNI2_INCLUDE}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/contrib/opencv/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/contrib/gltools/include}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1360652308" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
@@ -116,7 +111,6 @@
 								<option id="gnu.cpp.link.option.libs.1932870425" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="NiTE2"/>
 									<listOptionValue builtIn="false" value="OpenNI2"/>
-									<listOptionValue builtIn="false" value="opencv_core"/>
 									<listOptionValue builtIn="false" value="glut"/>
 									<listOptionValue builtIn="false" value="GLEW"/>
 									<listOptionValue builtIn="false" value="GLU"/>
@@ -139,8 +133,6 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
-					<sourceEntries>
-					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>

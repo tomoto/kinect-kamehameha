@@ -1,6 +1,6 @@
-kinect-kamehameha V1.0a
+kinect-kamehameha V1.0b
 Author: Tomoto S. Washio
-Release Date: 4/28/2011
+Release Date: 1/13/2013
 Project URL: http://code.google.com/p/kinect-kamehameha/
 
 0. What's this?
@@ -10,33 +10,70 @@ looks like Kamehameha for Dragon Ball.
 
 1. Prerequisitive
 
-(1) You already have Kinect, right?
-(2) This product is supposed to run on sevral Windows platforms although
-    it is only tested on Windows XP Pro SP3 32bit and Windows 7 Pro 64bit
-    at this moment.
+(1) PrimeSense's 3D sensor such as Kinect (Microsoft), Xtion Live Pro
+    (ASUS), PrimeSensor (PrimceSense) is required.
+(2) Supported OS's depend on the sensor type.
+(2.1) Kinect
+    - Windows 7 or later, i.e. Windows OK that supports Kinect SDK
+      (tested on Win7 Pro 64bit)
+    - Unofficially, may work in Windows XP (tested on WinXP Pro SP3 32bit)
+    - Unofficially, may work on Linux (not confirmed)
+(2.2) Other PrimeSense sensors
+    - Windows XP or later (tested on on WinXP Pro SP3 32bit and Win7 Pro 64bit)
+    - Linux (tested on Ubuntu 12.10)
 (3) Your computer should have sufficiently fast CPU and GPU.
-　　- The minimum requirement is unknown
-　　- The GPU must support programmable shaders and VAOs at least.
-　　- Core i7 2600 + GeForce GTX 285 is sufficient at least.
+    - The minimum requirement is unknown
+    - The GPU must support programmable shaders and VAOs at least.
+    - Core i7 2600 + GeForce GTX 285 is sufficient at least.
     See http://code.google.com/p/kinect-kamehameha/wiki/WorkingConfigurations
     for the list of the hardware/software configurations this program is
     reported to work.
 
 2. Installation
 
-(1) If you have not yet done, download Kinect SDK and install it.
-    http://www.kinectforwindows.org
+2.1 Kinect SDK edition
 
-(2) Unpack this archive anywhere you like.
+- For Windows 7 or later + Kinect
+  Easiest option for Kinect users who have Kinect SDK supported environment.
 
-2.2 For OpenNI version
+- Download and install Kinect SDK.
+  http://www.kinectforwindows.org
 
-(1) If you have not yet done, download OpenNI and other related
-    software and install them. The procedure changes often so see the
-    information at the URL below.
-    http://code.google.com/p/kinect-ultra/wiki/OpenNI_Downloads
+  Then unpack this software anywhere you like.
 
-(2) Unpack this archive anywhere you like.
+2.2 OpenNI edition
+
+- For Windows + general PrimeSense sensors. Kinect is also supported [*1].
+  Installation is a bit cumbersome, and planned to be replaced with
+  OpenNI2 edition explained later.
+
+- Download OpenNI and other related software and install them.
+  The process is complicated so check the information at the URL below.
+  http://code.google.com/p/kinect-ultra/wiki/OpenNI_Downloads
+
+  Then unpack this software anywhere you like.
+
+2.3 OpenNI2(Beta) edition
+
+- For Windows + general PrimeSense sensors. Kinect is also supported [*2].
+  Installation is much easier than the previous OpenNI edition.
+  The archive is large and it is still beta, though.
+
+- Just unpack this software anywhere you like.
+  To use Kinect, install Kinect SDK as 2.1.
+
+2.4 Linux edition
+
+- For Linux + general PrimeSense sensors. Kinect is not officially supported [*2].
+  Implementation is based on OpenNI2(Beta).
+  I don't know if it works except on Ubuntu 12.10.
+  If you are interested, please feel free to explore by yourself.
+
+- Unpack this software anywhere you like, and sudo install.sh.
+
+[*1] Although it is unofficial, you can use Kinect on Windows XP w/o Kinect SDK.
+[*2] It seems there is an unofficial way to use Kinect on OS's w/o Kinect SDK,
+     but not confirmed. Hint: FreenectDriver.
 
 3. How to Use
 
@@ -61,10 +98,12 @@ See LICENSE.TXT.
 
 5. Build
 
-If you want to build this program yourself or modify, go to the project
-page, download the source code, and open build2010/kinect-ultra.sln with
-Visual C++ 2010. To use debugger, set the working directory to ".." in
-the project's preference.
+(1) Windows: Download the source code from the project page, and open
+    build2010/kinect-ultra.sln with Visual C++ 2010. To use debugger,
+    set the working directory to ".." in the project's preference.
+
+(2) Linux: Download the source code from the project page, and follow
+    the instruction in buildLinux/BUILD_linux.TXT.
 
 Enjoy!
 Tomoto
