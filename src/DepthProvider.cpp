@@ -55,9 +55,9 @@ bool DepthProviderImpl::waitForNextFrameAndLockImpl(DWORD timeout)
 
 		memset(m_data, 0, X_RES * Y_RES * sizeof(XuRawDepthPixel));
 
-		for (LONG y = 0; y < 240; y++) {
+		for (int y = 0; y < 240; y++) {
 			XuRawDepthPixel* sp = data + y * 320;
-			for (LONG x = 0; x < 320; x++) {
+			for (int x = 0; x < 320; x++) {
 				LONG ix, iy;
 				XuRawDepthPixel d = *sp++;
 				NuiImageGetColorPixelCoordinatesFromDepthPixelAtResolution(NUI_IMAGE_RESOLUTION_640x480, NUI_IMAGE_RESOLUTION_320x240, NULL, x, y, d, &ix, &iy);
@@ -84,16 +84,16 @@ void DepthProviderImpl::unlockImpl()
 	m_isLocked = false;
 }
 
-void DepthProviderImpl::transformSkeletonToDepthImage(const XV3& p, LONG* pX, LONG* pY, XuRawDepthPixel* pZ)
+void DepthProviderImpl::transformSkeletonToDepthImage(const XV3& p, int* pX, int* pY, XuRawDepthPixel* pZ)
 {
 	Vector4 v;
 	v.x = p.X / 1000.0f;
 	v.y = p.Y / 1000.0f;
 	v.z = p.Z / 1000.0f;
-	NuiTransformSkeletonToDepthImage(v, pX, pY, pZ, NUI_IMAGE_RESOLUTION_640x480);
+	NuiTransformSkeletonToDepthImage(v, (LONG*)pX, (LONG*)pY, pZ, NUI_IMAGE_RESOLUTION_640x480);
 }
 
-void DepthProviderImpl::transformDepthImageToSkeleton(LONG x, LONG y, XuRawDepthPixel z, XV3* pPoint)
+void DepthProviderImpl::transformDepthImageToSkeleton(int x, int y, XuRawDepthPixel z, XV3* pPoint)
 {
 	Vector4 v = NuiTransformDepthImageToSkeleton(x, y, z, NUI_IMAGE_RESOLUTION_640x480);
 	pPoint->X = v.x * 1000;
@@ -183,18 +183,18 @@ const XuRawUserIDPixel* DepthProviderImpl::getUserIDData() const
 	return md.Data();
 }
 
-void DepthProviderImpl::transformSkeletonToDepthImage(const XV3& p, LONG* pX, LONG* pY, XuRawDepthPixel* pZ)
+void DepthProviderImpl::transformSkeletonToDepthImage(const XV3& p, int* pX, int* pY, XuRawDepthPixel* pZ)
 {
 	// TODO performance concern
 
 	XnPoint3D rp = { p.X, p.Y, p.Z }, pp;
 	m_depthGen.ConvertRealWorldToProjective(1, &rp, &pp);
-	*pX = (LONG) pp.X;
-	*pY = (LONG) pp.Y;
+	*pX = (int) pp.X;
+	*pY = (int) pp.Y;
 	*pZ = (XuRawDepthPixel) pp.Z;
 }
 
-void DepthProviderImpl::transformDepthImageToSkeleton(LONG x, LONG y, XuRawDepthPixel z, XV3* pPoint)
+void DepthProviderImpl::transformDepthImageToSkeleton(int x, int y, XuRawDepthPixel z, XV3* pPoint)
 {
 	// TODO performance concern
 	

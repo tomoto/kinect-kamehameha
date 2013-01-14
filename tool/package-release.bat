@@ -1,7 +1,7 @@
 @rem Note: (1) Set VER to release version. (2) Install ActivePerl.
 
 setlocal
-set VER=1.0a
+set VER=1.0b
 
 set TARGET=release\kinect-kamehameha_%VER%_for_KinectSDK
 rmdir /s /q %TARGET%
@@ -34,10 +34,7 @@ copy ..\build2010\OpenNI2_Release\opencv_*.dll %TARGET%
 copy ..\LICENSE.TXT %TARGET%
 copy ..\README_*.TXT %TARGET%
 copy ..\HISTORY_*.TXT %TARGET%
-copy ..\OpenNI* %TARGET%
-copy ..\PS1080* %TARGET%
-copy ..\NiTE* %TARGET%
-xcopy ..\OpenNI2 %TARGET%\OpenNI2\ /e
-xcopy ..\NiTE2 %TARGET%\NiTE2\ /e
+xcopy %OPENNI2_REDIST%. %TARGET%\ /e
+xcopy %NITE2_REDIST%. %TARGET%\ /e
 perl zip.pl %TARGET%
 
