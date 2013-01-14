@@ -29,7 +29,6 @@
 
 #include "util.h"
 #include "config.h"
-#include <opencv2/highgui/highgui.hpp>
 #include "RenderingContext.h"
 
 std::string getResourceFile(const char* category, const char* name)

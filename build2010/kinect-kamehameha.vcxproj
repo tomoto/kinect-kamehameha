@@ -104,12 +104,10 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='OpenNI_Debug|Win32'">
     <CustomBuildStep>
-      <Command>copy ..\contrib\opencv\bin\opencv_core231d.dll "$(OutDir)"</Command>
-      <Outputs>$(OutDir)opencv_core231d.dll;%(Outputs)</Outputs>
     </CustomBuildStep>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(OPEN_NI_INCLUDE);..\contrib\freeglut\include;..\contrib\gltools\include;..\contrib\opencv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OPEN_NI_INCLUDE);..\contrib\freeglut\include;..\contrib\gltools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>XU_OPENNI;WIN32;_DEBUG;_CONSOLE;FREEGLUT_LIB_PRAGMAS=0;FREEGLUT_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -120,9 +118,9 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>gltoolsd.lib;freeglut_static_d.lib;opencv_core231d.lib;OpenNI.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>gltoolsd.lib;freeglut_static_d.lib;OpenNI.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>$(OPEN_NI_LIB);..\contrib\gltools\lib;..\contrib\freeglut\lib;..\contrib\opencv\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OPEN_NI_LIB);..\contrib\gltools\lib;..\contrib\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -131,12 +129,10 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='OpenNI2_Debug|Win32'">
     <CustomBuildStep>
-      <Command>copy ..\contrib\opencv\bin\opencv_core231d.dll "$(OutDir)"</Command>
-      <Outputs>$(OutDir)opencv_core231d.dll;%(Outputs)</Outputs>
     </CustomBuildStep>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(NITE2_INCLUDE);$(OPENNI2_INCLUDE);..\contrib\freeglut\include;..\contrib\gltools\include;..\contrib\opencv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(NITE2_INCLUDE);$(OPENNI2_INCLUDE);..\contrib\freeglut\include;..\contrib\gltools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>XU_OPENNI2;WIN32;_DEBUG;_CONSOLE;FREEGLUT_LIB_PRAGMAS=0;FREEGLUT_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -147,9 +143,9 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>gltoolsd.lib;freeglut_static_d.lib;opencv_core231d.lib;NiTE2.lib;OpenNI2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>gltoolsd.lib;freeglut_static_d.lib;;NiTE2.lib;OpenNI2.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>$(NITE2_LIB);$(OPENNI2_LIB);..\contrib\gltools\lib;..\contrib\freeglut\lib;..\contrib\opencv\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(NITE2_LIB);$(OPENNI2_LIB);..\contrib\gltools\lib;..\contrib\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -158,12 +154,10 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MSSDK_Debug|Win32'">
     <CustomBuildStep>
-      <Command>copy ..\contrib\opencv\bin\opencv_core231d.dll "$(OutDir)"</Command>
-      <Outputs>$(OutDir)opencv_core231d.dll;%(Outputs)</Outputs>
     </CustomBuildStep>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(KINECTSDK10_DIR)\inc;..\contrib\freeglut\include;..\contrib\gltools\include;..\contrib\opencv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(KINECTSDK10_DIR)\inc;..\contrib\freeglut\include;..\contrib\gltools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>XU_KINECTSDK;WIN32;_DEBUG;_CONSOLE;FREEGLUT_LIB_PRAGMAS=0;FREEGLUT_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -174,9 +168,9 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>gltoolsd.lib;freeglut_static_d.lib;opencv_core231d.lib;Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>gltoolsd.lib;freeglut_static_d.lib;Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>$(KINECTSDK10_DIR)\lib\x86;..\contrib\gltools\lib;..\contrib\freeglut\lib;..\contrib\opencv\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(KINECTSDK10_DIR)\lib\x86;..\contrib\gltools\lib;..\contrib\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -185,13 +179,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='OpenNI_Release|Win32'">
     <CustomBuildStep>
-      <Command>copy ..\contrib\opencv\bin\opencv_core231.dll "$(OutDir)"</Command>
-      <Outputs>$(OutDir)opencv_core231.dll;%(Outputs)</Outputs>
     </CustomBuildStep>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(OPEN_NI_INCLUDE);..\contrib\freeglut\include;..\contrib\gltools\include;..\contrib\opencv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OPEN_NI_INCLUDE);..\contrib\freeglut\include;..\contrib\gltools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>XU_OPENNI;WIN32;NDEBUG;_CONSOLE;FREEGLUT_LIB_PRAGMAS=0;FREEGLUT_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -201,8 +193,8 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>gltools.lib;freeglut_static.lib;opencv_core231.lib;OpenNI.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OPEN_NI_LIB);..\contrib\gltools\lib;..\contrib\freeglut\lib;..\contrib\opencv\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>gltools.lib;freeglut_static.lib;OpenNI.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OPEN_NI_LIB);..\contrib\gltools\lib;..\contrib\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -213,13 +205,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='OpenNI2_Release|Win32'">
     <CustomBuildStep>
-      <Command>copy ..\contrib\opencv\bin\opencv_core231.dll "$(OutDir)"</Command>
-      <Outputs>$(OutDir)opencv_core231.dll;%(Outputs)</Outputs>
     </CustomBuildStep>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(NITE2_INCLUDE);$(OPENNI2_INCLUDE);..\contrib\freeglut\include;..\contrib\gltools\include;..\contrib\opencv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(NITE2_INCLUDE);$(OPENNI2_INCLUDE);..\contrib\freeglut\include;..\contrib\gltools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>XU_OPENNI2;WIN32;NDEBUG;_CONSOLE;FREEGLUT_LIB_PRAGMAS=0;FREEGLUT_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -229,8 +219,8 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>gltools.lib;freeglut_static.lib;opencv_core231.lib;NiTE2.lib;OpenNI2.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(NITE2_LIB);$(OPENNI2_LIB);..\contrib\gltools\lib;..\contrib\freeglut\lib;..\contrib\opencv\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>gltools.lib;freeglut_static.lib;NiTE2.lib;OpenNI2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(NITE2_LIB);$(OPENNI2_LIB);..\contrib\gltools\lib;..\contrib\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -241,13 +231,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MSSDK_Release|Win32'">
     <CustomBuildStep>
-      <Command>copy ..\contrib\opencv\bin\opencv_core231.dll "$(OutDir)"</Command>
-      <Outputs>$(OutDir)opencv_core231.dll;%(Outputs)</Outputs>
     </CustomBuildStep>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(KINECTSDK10_DIR)\inc;..\contrib\freeglut\include;..\contrib\gltools\include;..\contrib\opencv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(KINECTSDK10_DIR)\inc;..\contrib\freeglut\include;..\contrib\gltools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>XU_KINECTSDK;WIN32;NDEBUG;_CONSOLE;FREEGLUT_LIB_PRAGMAS=0;FREEGLUT_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -257,8 +245,8 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>gltools.lib;freeglut_static.lib;opencv_core231.lib;Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(KINECTSDK10_DIR)\lib\x86;..\contrib\gltools\lib;..\contrib\freeglut\lib;..\contrib\opencv\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>gltools.lib;freeglut_static.lib;Kinect10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(KINECTSDK10_DIR)\lib\x86;..\contrib\gltools\lib;..\contrib\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -274,6 +262,7 @@
     <ClCompile Include="..\src\common.cpp" />
     <ClCompile Include="..\src\Configuration.cpp" />
     <ClCompile Include="..\src\DepthProvider.cpp" />
+    <ClCompile Include="..\src\RandomGenerator.cpp" />
     <ClCompile Include="..\src\HenshinDetector.cpp" />
     <ClCompile Include="..\src\ImageProvider.cpp" />
     <ClCompile Include="..\src\KamehamehaDetector.cpp" />
@@ -302,6 +291,7 @@
     <ClInclude Include="..\src\Configuration.h" />
     <ClInclude Include="..\src\DepthProvider.h" />
     <ClInclude Include="..\src\FrameRateCounter.h" />
+    <ClInclude Include="..\src\RandomGenerator.h" />
     <ClInclude Include="..\src\HenshinDetector.h" />
     <ClInclude Include="..\src\Holder.h" />
     <ClInclude Include="..\src\ImageProvider.h" />

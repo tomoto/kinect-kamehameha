@@ -165,8 +165,8 @@ void WorldRenderer::drawBackground()
 		float currentIntensity = m_kkhStatus->getCurrentIntensity();
 
 		m_rctx->orthoMatrix.Translate(
-			float(m_rng.gaussian(0.6)) * currentIntensity * 0.01f,
-			float(m_rng.gaussian(0.6)) * currentIntensity * 0.01f,
+			m_rng.gaussian(0.6f) * currentIntensity * 0.01f,
+			m_rng.gaussian(0.6f) * currentIntensity * 0.01f,
 			0);
 
 		// setup shader
@@ -192,7 +192,7 @@ void WorldRenderer::drawBackground()
 		lightCenter.Z *= Z_SCALE;
 		float lightRadius =
 			(m_kkhStatus->getGrowth() + currentIntensity * 0.5f) *
-			(0.97f + float(m_rng.gaussian(0.6)) * 0.06f);
+			(0.97f + m_rng.gaussian(0.6f) * 0.06f);
 
 		float halationFactor = 100.0f * (1.0f + sqrt(currentIntensity) * 2.0f) / square(Z_SCALE);
 

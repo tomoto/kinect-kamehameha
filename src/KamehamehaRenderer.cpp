@@ -107,8 +107,8 @@ float KamehamehaRenderer::getCurrentLength()
 
 static const TrigonometricTable TRIGON(128);
 
-inline float fluct(cv::RNG& rng) {
-	return float(rng.gaussian(0.5)) * 0.1f;
+inline float fluct(RandomGenerator& rng) {
+	return float(rng.gaussian(0.5f)) * 0.1f;
 }
 
 void KamehamehaRenderer::drawBeam(float radius, float length)
