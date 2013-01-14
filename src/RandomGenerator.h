@@ -1,6 +1,6 @@
 //@COPYRIGHT@//
 //
-// Copyright (c) 2012, Tomoto S. Washio
+// Copyright (c) 2013, Tomoto S. Washio
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,39 +27,21 @@
 //
 //@COPYRIGHT@//
 
-#ifndef _SENSOR_MANAGER_H_
-#define _SENSOR_MANAGER_H_
+#ifndef _RANDOM_GENERATOR_H_
+#define _RANDOM_GENERATOR_H_
 
 #include "common.h"
-#include "Holder.h"
-#include "ImageProvider.h"
-#include "DepthProvider.h"
-#include "UserProvider.h"
 
-class SensorManager
-{
+class RandomGenerator {
 private:
-#ifdef XU_KINECTSDK
-	INuiSensor* m_pSensor;
-#elif defined XU_OPENNI2
-	openni::Device m_device;
-#else // XU_OPENNI
-	Context m_context;
-#endif
-	Holder<ImageProviderImpl> m_imageProvider;
-	Holder<DepthProviderImpl> m_depthProvider;
-	Holder<UserProviderImpl> m_userProvider;
+	int m_count;
+	float m_next;
 
 public:
-	SensorManager();
-	virtual ~SensorManager();
+	RandomGenerator();
 
-	ImageProvider* getImageProvider() { return m_imageProvider; }
-	DepthProvider* getDepthProvider() { return m_depthProvider; }
-	UserProvider* getUserProvider() { return m_userProvider; }
-
-	bool waitAllForNextFrameAndLock();
-	void unlock();
+	float random();
+	float gaussian(float sigma);
 };
 
 #endif

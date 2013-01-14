@@ -35,23 +35,20 @@
 static const char *srcVP =
 	"uniform mat4 mvMatrix;"
 	"uniform mat4 pMatrix;"
-	"varying vec4 vFragColor;"
-	"attribute vec4 vVertex;"
-	"attribute vec3 vNormal;"
 	"uniform vec4 vColor;"
+	"varying vec4 vFragColor;"
 	"void main(void) { "
 	" mat3 mNormalMatrix;"
 	" mNormalMatrix[0] = mvMatrix[0].xyz;"
 	" mNormalMatrix[1] = mvMatrix[1].xyz;"
 	" mNormalMatrix[2] = mvMatrix[2].xyz;"
-	" vec4 mvvVertex = mvMatrix * vVertex;"
+	" vec4 mvvVertex = mvMatrix * gl_Vertex;"
 	" vec3 vLightDir = -normalize(mvvVertex.xyz / mvvVertex.w);"
-	//" vec3 vLightDir = vec3(0.0, 0.0, 1.0); "
-	" vec3 vNorm = normalize(mNormalMatrix * vNormal);"
+	" vec3 vNorm = normalize(mNormalMatrix * gl_Normal);"
 	" float fDot = dot(vNorm, vLightDir); "
 	" vFragColor.rgb = vColor.rgb;"
 	" vFragColor.a = vColor.a * fDot * fDot;"
-	" gl_Position = pMatrix * mvMatrix * vVertex;"
+	" gl_Position = pMatrix * mvMatrix * gl_Vertex;"
 	"}";
 
 static const char *srcFP =	
@@ -66,7 +63,7 @@ KamehamehaRenderer::KamehamehaRenderer(RenderingContext* rctx, KamehamehaStatus*
 {
 	m_kkhStatus = kkhStatus;
 	if (!s_shaderID) {
-		s_shaderID = m_rctx->shaderMan->LoadShaderPairSrcWithAttributes("test", srcVP, srcFP, 2, GLT_ATTRIBUTE_VERTEX, "vVertex", GLT_ATTRIBUTE_NORMAL, "vNormal");
+		s_shaderID = m_rctx->shaderMan->LoadShaderPairSrcWithAttributes("test", srcVP, srcFP, 0);
 	}
 	m_active = false;
 }
@@ -110,8 +107,8 @@ float KamehamehaRenderer::getCurrentLength()
 
 static const TrigonometricTable TRIGON(128);
 
-inline float fluct(cv::RNG& rng) {
-	return float(rng.gaussian(0.5)) * 0.1f;
+inline float fluct(RandomGenerator& rng) {
+	return float(rng.gaussian(0.5f)) * 0.1f;
 }
 
 void KamehamehaRenderer::drawBeam(float radius, float length)

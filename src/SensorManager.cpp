@@ -71,9 +71,9 @@ SensorManager::SensorManager() : m_pSensor(NULL)
 {
 	m_pSensor = findFirstAvailableSensor();
 
-	m_imageProvider = new ImageProvider(m_pSensor);
-	m_depthProvider = new DepthProvider(m_pSensor);
-	m_userProvider = new UserProvider(m_pSensor);
+	m_imageProvider = new ImageProviderImpl(m_pSensor);
+	m_depthProvider = new DepthProviderImpl(m_pSensor);
+	m_userProvider = new UserProviderImpl(m_pSensor);
 }
 
 SensorManager::~SensorManager()
@@ -99,6 +99,49 @@ void SensorManager::unlock()
 	m_imageProvider->unlock();
 }
 
+#elif defined XU_OPENNI2
+
+SensorManager::SensorManager()
+{
+	CALL_SENSOR( openni::OpenNI::initialize() );
+	CALL_SENSOR( nite::NiTE::initialize() );
+
+	CALL_SENSOR( m_device.open(openni::ANY_DEVICE) );
+	// CALL_SENSOR( m_device.setDepthColorSyncEnabled(TRUE) );
+
+	m_imageProvider = new ImageProviderImpl(&m_device);
+	m_depthProvider = new DepthProviderImpl(&m_device);
+	m_userProvider = new UserProviderImpl(m_depthProvider);
+
+	m_device.setDepthColorSyncEnabled(true);
+
+	// It's weird, but we have to set this AFTER the streams are started...
+	if (m_device.isPropertySupported(openni::DEVICE_PROPERTY_IMAGE_REGISTRATION)) {
+		// Today, color-depth registration is not supported for Kinect
+		CALL_SENSOR( m_device.setImageRegistrationMode(openni::/*ImageRegistrationMode::*/IMAGE_REGISTRATION_DEPTH_TO_COLOR) );
+	}
+}
+
+SensorManager::~SensorManager()
+{
+	m_userProvider = NULL;
+	m_depthProvider = NULL;
+	m_imageProvider = NULL;
+	m_device.close();
+
+	nite::NiTE::shutdown();
+	openni::OpenNI::shutdown();
+}
+
+bool SensorManager::waitAllForNextFrameAndLock()
+{
+	return m_imageProvider->waitForNextFrame() && m_depthProvider->waitForNextFrame();
+}
+
+void SensorManager::unlock()
+{
+}
+
 #else // XU_OPENNI
 
 SensorManager::SensorManager()
@@ -106,9 +149,9 @@ SensorManager::SensorManager()
 	ScriptNode scriptNode;
 	CALL_SENSOR( m_context.InitFromXmlFile(getResourceFile("config", "OpenNIConfig.xml").c_str(), scriptNode) );
 	CALL_SENSOR( m_context.SetGlobalMirror(TRUE) );
-	m_imageProvider = new ImageProvider(&m_context);
-	m_userProvider = new UserProvider(&m_context);
-	m_depthProvider = new DepthProvider(&m_context, m_imageProvider->getGenerator(), m_userProvider->getGenerator());
+	m_imageProvider = new ImageProviderImpl(&m_context);
+	m_userProvider = new UserProviderImpl(&m_context);
+	m_depthProvider = new DepthProviderImpl(&m_context, m_imageProvider->getGenerator(), m_userProvider->getGenerator());
 
 	m_context.StartGeneratingAll(); // too early? let's see if it works.
 }

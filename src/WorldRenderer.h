@@ -39,7 +39,7 @@
 #include "TimeTicker.h"
 #include "ImageProvider.h"
 #include "DepthProvider.h"
-#include <opencv2/core/core.hpp>
+#include "RandomGenerator.h"
 
 class WorldRenderer : public AbstractOpenGLRenderer
 {
@@ -68,14 +68,14 @@ protected:
 
 	Batch m_batch; 
 
-	DWORD m_width;
-	DWORD m_height;
+	int m_width;
+	int m_height;
 	M3DVector3f* m_vertexBuf;
 	M3DVector4f* m_colorBuf;
 
 	float m_depthAdjustment;
 
-	cv::RNG m_rng;
+	RandomGenerator m_rng;
 
 public:
 	WorldRenderer(RenderingContext* rctx, DepthProvider* depthProvider, ImageProvider* imageGen,
@@ -86,7 +86,7 @@ public:
 
 	void addDepthAdjustment(float value) { m_depthAdjustment += value; }
 private:
-	DWORD getNumPoints() { return m_width * m_height; }
+	int getNumPoints() { return m_width * m_height; }
 
 	void getHenshinData(XuUserID* pUserID, const XuRawUserIDPixel** ppLabel, XV3* pLightCenter, XV3* pHeadCenter, XV3* pHeadDirection);
 

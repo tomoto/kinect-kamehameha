@@ -34,22 +34,37 @@
 #include "AbstractImageStreamProvider.h"
 #include "vec.h"
 
+class DepthProvider
+{
+public:
+	DepthProvider() {}
+	virtual ~DepthProvider() {}
+
+	virtual const XuRawDepthPixel* getData() const = 0;
+	virtual const XuRawUserIDPixel* getUserIDData() const = 0;
+
+	virtual void transformSkeletonToDepthImage(const XV3& p, int* pX, int* pY, XuRawDepthPixel* pZ) = 0;
+	virtual void transformDepthImageToSkeleton(int x, int y, XuRawDepthPixel z, XV3* pPoint) = 0;
+
+	virtual void getFOV(float* pHFOV, float* pVFOV) = 0;
+};
+
 #ifdef XU_KINECTSDK
 
-class DepthProvider : public AbstractImageStreamProvider
+class DepthProviderImpl : public DepthProvider, public AbstractImageStreamProvider
 {
 private:
 	XuRawDepthPixel* m_data;
 
 public:
-	DepthProvider(INuiSensor* pSensor);
-	~DepthProvider();
+	DepthProviderImpl(INuiSensor* pSensor);
+	~DepthProviderImpl();
 
 	const XuRawDepthPixel* getData() const { return m_data; }
 	const XuRawUserIDPixel* getUserIDData() const { return m_data; }
 
-	void transformSkeletonToDepthImage(const XV3& p, LONG* pX, LONG* pY, XuRawDepthPixel* pZ);
-	void transformDepthImageToSkeleton(LONG x, LONG y, XuRawDepthPixel z, XV3* pPoint);
+	void transformSkeletonToDepthImage(const XV3& p, int* pX, int* pY, XuRawDepthPixel* pZ);
+	void transformDepthImageToSkeleton(int x, int y, XuRawDepthPixel z, XV3* pPoint);
 
 	void getFOV(float* pHFOV, float* pVFOV);
 
@@ -58,23 +73,51 @@ protected:
 	virtual void unlockImpl();
 };
 
+#elif defined XU_OPENNI2
+
+class DepthProviderImpl : public DepthProvider, public AbstractImageStreamProvider
+{
+private:
+	typedef AbstractImageStreamProvider SuperClass;
+
+	nite::UserTracker m_userTracker;
+	nite::UserTrackerFrameRef m_userFrameRef;
+
+public:
+	DepthProviderImpl(openni::Device* pDevice);
+	~DepthProviderImpl();
+
+	nite::UserTracker* getUserTracker() { return &m_userTracker; }
+	nite::UserTrackerFrameRef* getUserTrackerFrame() { return &m_userFrameRef; }
+
+	const XuRawDepthPixel* getData() const { return (XuRawDepthPixel*) m_frameRef.getData(); }
+	const XuRawUserIDPixel* getUserIDData() const { return m_userFrameRef.getUserMap().getPixels(); }
+
+	void transformSkeletonToDepthImage(const XV3& p, int* pX, int* pY, XuRawDepthPixel* pZ);
+	void transformDepthImageToSkeleton(int x, int y, XuRawDepthPixel z, XV3* pPoint);
+
+	void getFOV(float* pHFOV, float* pVFOV);
+
+	bool waitForNextFrame();
+};
+
 #else // XU_OPENNI
 
-class DepthProvider : public AbstractImageStreamProvider
+class DepthProviderImpl : public DepthProvider, public AbstractImageStreamProvider
 {
 private:
 	DepthGenerator m_depthGen;
 	UserGenerator* m_pUserGen;
 
 public:
-	DepthProvider(Context* pContext, ImageGenerator* pImageGen, UserGenerator* pUserGen);
-	~DepthProvider();
+	DepthProviderImpl(Context* pContext, ImageGenerator* pImageGen, UserGenerator* pUserGen);
+	~DepthProviderImpl();
 
 	const XuRawDepthPixel* getData() const { return m_depthGen.GetDepthMap(); }
 	const XuRawUserIDPixel* getUserIDData() const;
 
-	void transformSkeletonToDepthImage(const XV3& p, LONG* pX, LONG* pY, XuRawDepthPixel* pZ);
-	void transformDepthImageToSkeleton(LONG x, LONG y, XuRawDepthPixel z, XV3* pPoint);
+	void transformSkeletonToDepthImage(const XV3& p, int* pX, int* pY, XuRawDepthPixel* pZ);
+	void transformDepthImageToSkeleton(int x, int y, XuRawDepthPixel z, XV3* pPoint);
 
 	void getFOV(float* pHFOV, float* pVFOV);
 };
