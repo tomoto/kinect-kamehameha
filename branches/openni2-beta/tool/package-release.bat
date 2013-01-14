@@ -8,7 +8,6 @@ rmdir /s /q %TARGET%
 mkdir %TARGET%
 xcopy ..\data %TARGET%\data\ /e
 copy ..\build2010\MSSDK_Release\kinect-kamehameha.exe %TARGET%\
-copy ..\build2010\MSSDK_Release\opencv_*.dll %TARGET%
 copy ..\LICENSE.TXT %TARGET%
 copy ..\README_*.TXT %TARGET%
 copy ..\HISTORY_*.TXT %TARGET%
@@ -19,7 +18,6 @@ rmdir /s /q %TARGET%
 mkdir %TARGET%
 xcopy ..\data %TARGET%\data\ /e
 copy ..\build2010\OpenNI_Release\kinect-kamehameha.exe %TARGET%\
-copy ..\build2010\OpenNI_Release\opencv_*.dll %TARGET%
 copy ..\LICENSE.TXT %TARGET%
 copy ..\README_*.TXT %TARGET%
 copy ..\HISTORY_*.TXT %TARGET%
@@ -30,7 +28,6 @@ rmdir /s /q %TARGET%
 mkdir %TARGET%
 xcopy ..\data %TARGET%\data\ /e
 copy ..\build2010\OpenNI2_Release\kinect-kamehameha.exe %TARGET%\
-copy ..\build2010\OpenNI2_Release\opencv_*.dll %TARGET%
 copy ..\LICENSE.TXT %TARGET%
 copy ..\README_*.TXT %TARGET%
 copy ..\HISTORY_*.TXT %TARGET%

@@ -39,7 +39,7 @@
 #include "TimeTicker.h"
 #include "ImageProvider.h"
 #include "DepthProvider.h"
-#include <opencv2/core/core.hpp>
+#include "RandomGenerator.h"
 
 class WorldRenderer : public AbstractOpenGLRenderer
 {
@@ -75,7 +75,7 @@ protected:
 
 	float m_depthAdjustment;
 
-	cv::RNG m_rng;
+	RandomGenerator m_rng;
 
 public:
 	WorldRenderer(RenderingContext* rctx, DepthProvider* depthProvider, ImageProvider* imageGen,
