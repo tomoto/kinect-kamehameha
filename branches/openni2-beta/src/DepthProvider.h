@@ -63,8 +63,8 @@ public:
 	const XuRawDepthPixel* getData() const { return m_data; }
 	const XuRawUserIDPixel* getUserIDData() const { return m_data; }
 
-	void transformSkeletonToDepthImage(const XV3& p, LONG* pX, LONG* pY, XuRawDepthPixel* pZ);
-	void transformDepthImageToSkeleton(LONG x, LONG y, XuRawDepthPixel z, XV3* pPoint);
+	void transformSkeletonToDepthImage(const XV3& p, int* pX, int* pY, XuRawDepthPixel* pZ);
+	void transformDepthImageToSkeleton(int x, int y, XuRawDepthPixel z, XV3* pPoint);
 
 	void getFOV(float* pHFOV, float* pVFOV);
 
@@ -116,8 +116,8 @@ public:
 	const XuRawDepthPixel* getData() const { return m_depthGen.GetDepthMap(); }
 	const XuRawUserIDPixel* getUserIDData() const;
 
-	void transformSkeletonToDepthImage(const XV3& p, LONG* pX, LONG* pY, XuRawDepthPixel* pZ);
-	void transformDepthImageToSkeleton(LONG x, LONG y, XuRawDepthPixel z, XV3* pPoint);
+	void transformSkeletonToDepthImage(const XV3& p, int* pX, int* pY, XuRawDepthPixel* pZ);
+	void transformDepthImageToSkeleton(int x, int y, XuRawDepthPixel z, XV3* pPoint);
 
 	void getFOV(float* pHFOV, float* pVFOV);
 };
