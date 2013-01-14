@@ -86,7 +86,7 @@ float KamehamehaDetector::getMotionIntensityFactor() {
 
 inline float getArmVerticalDiff(const XV3& v)
 {
-	return abs(v.Y / v.magnitude() - 0.1f);
+	return fabs(v.Y / v.magnitude() - 0.1f);
 }
 
 bool KamehamehaDetector::isPosing(float dt)

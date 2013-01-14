@@ -1,6 +1,6 @@
 //@COPYRIGHT@//
 //
-// Copyright (c) 2012, Tomoto S. Washio
+// Copyright (c) 2011, Tomoto S. Washio
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,39 +27,35 @@
 //
 //@COPYRIGHT@//
 
-#ifndef _SENSOR_MANAGER_H_
-#define _SENSOR_MANAGER_H_
+#include "RandomGenerator.h"
 
-#include "common.h"
-#include "Holder.h"
-#include "ImageProvider.h"
-#include "DepthProvider.h"
-#include "UserProvider.h"
-
-class SensorManager
+RandomGenerator::RandomGenerator() : m_count(0), m_next(0.0f)
 {
-private:
-#ifdef XU_KINECTSDK
-	INuiSensor* m_pSensor;
-#elif defined XU_OPENNI2
-	openni::Device m_device;
-#else // XU_OPENNI
-	Context m_context;
-#endif
-	Holder<ImageProviderImpl> m_imageProvider;
-	Holder<DepthProviderImpl> m_depthProvider;
-	Holder<UserProviderImpl> m_userProvider;
+}
 
-public:
-	SensorManager();
-	virtual ~SensorManager();
+float RandomGenerator::random()
+{
+	return float(rand()) / RAND_MAX;
+}
 
-	ImageProvider* getImageProvider() { return m_imageProvider; }
-	DepthProvider* getDepthProvider() { return m_depthProvider; }
-	UserProvider* getUserProvider() { return m_userProvider; }
+float RandomGenerator::gaussian(float sigma)
+{
+	if (++m_count & 1) {
+		// Box-Muller transformation
+		float x1, x2, w, y1, y2;
+		do {
+			x1 = 2.0f * random() - 1.0f;
+			x2 = 2.0f * random() - 1.0f;
+			w = x1 * x1 + x2 * x2;
+		} while (w >= 1.0f);
 
-	bool waitAllForNextFrameAndLock();
-	void unlock();
-};
+		w = sqrtf( (-2.0f * logf(w)) / w );
+		y1 = x1 * w;
+		y2 = x2 * w;
 
-#endif
+		m_next = y2;
+		return y1 * sigma;
+	} else {
+		return m_next * sigma;
+	}
+}

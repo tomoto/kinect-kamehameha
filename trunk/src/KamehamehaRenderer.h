@@ -35,7 +35,7 @@
 #include "AbstractOpenGLRenderer.h"
 #include "KamehamehaStatus.h"
 #include "TimeTicker.h"
-#include <opencv2/core/core.hpp>
+#include "RandomGenerator.h"
 
 class KamehamehaRenderer : public AbstractOpenGLRenderer
 {
@@ -43,7 +43,7 @@ private:
 	KamehamehaStatus* m_kkhStatus;
 	TimeTicker m_ticker;
 
-	cv::RNG m_rng;
+	RandomGenerator m_rng;
 	bool m_active;
 	XV3 m_origin;
 	XV3 m_forward;
