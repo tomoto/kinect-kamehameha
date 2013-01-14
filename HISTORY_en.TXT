@@ -1,5 +1,10 @@
 kinect-kamehameha Change History
 
+* 1/13/2013 V1.0b
+
+  * Fixed the issue #2: Energy wave does not appear
+  * Created OpenNI2(Beta) version and Linux version.
+
 * 4/28/2012 V1.0a
 
   * Added Kinect SDK version
