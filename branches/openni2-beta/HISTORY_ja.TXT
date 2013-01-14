@@ -1,5 +1,10 @@
 kinect-kamehameha 更新履歴
 
+* 2013/1/13 V1.0b
+
+  * エネルギー波が出ない問題(Issue #2)を修正
+  * OpenNI2(Beta)版とLinux版を追加
+
 * 2012/4/28 V1.0a
 
   * Kienct SDK版を追加
