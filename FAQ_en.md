@@ -1,0 +1,1 @@
+Please see [kinect-ultra's FAQ](http://code.google.com/p/kinect-ultra/wiki/FAQ_en) for now.

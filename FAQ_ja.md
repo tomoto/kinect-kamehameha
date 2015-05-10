@@ -1,0 +1,1 @@
+整備するまで [kinect-ultraのFAQ](http://code.google.com/p/kinect-ultra/wiki/FAQ_ja) を参照ください。
